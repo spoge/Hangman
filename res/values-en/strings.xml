@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="play_button">Play</string>
+    <string name="rules_button">Rules</string>
+	<string name="settings_button">Settings</string>
+    <string name="language_button">Languages</string>
+    <string name="end_game_button">Exit</string>
+	<string name="win_message">You won!</string>
+	<string name="lose_message">You lost!</string>
+	<string name="score">Score: </string>
+	<string name="keyboard">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+</resources>

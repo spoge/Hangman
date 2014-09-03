@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Hangman</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="filler">filler</string>
+    <string name="title_activity_start_screen">StartScreen</string>
+    <string name="play_button">Spill</string>
+    <string name="rules_button">Regler</string>
+    <string name="language_button">Språk</string>
+    <string name="end_game_button">Avslutt</string>
+    <string name="title_activity_menu">Menu</string>
+
+</resources>

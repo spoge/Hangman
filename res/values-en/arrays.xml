@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array
+        name="words">
+        <item>Earth</item>
+        <item>Dimension</item>
+        <item>Senegal</item>
+        <item>President</item>
+        <item>Passport</item>
+        <item>Locker room</item>
+        <item>Computer</item>
+        <item>Boxer</item>
+        <item>Basket</item>
+        <item>Monkey</item>
+        <item>Party</item>
+        <item>Boomerang</item>
+        <item>Present</item>
+        <item>Donkey</item>
+        <item>Marksman</item>
+    </string-array>
+</resources>
