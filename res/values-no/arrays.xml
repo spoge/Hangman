@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="words">
+        <item>Jord</item>
+        <item>Dimensjon</item>
+        <item>Senegal</item>
+        <item>President</item>
+        <item>Pass</item>
+        <item>Garderobe</item>
+        <item>Datamaskin</item>
+        <item>Bokser</item>
+        <item>Kurv</item>
+        <item>Apekatt</item>
+        <item>Fest</item>
+        <item>Bomerang</item>
+        <item>Gave</item>
+        <item>Esel</item>
+        <item>Bueskytter</item>
+    </string-array>
+</resources>
