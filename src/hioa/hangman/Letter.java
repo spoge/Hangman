@@ -2,6 +2,8 @@ package hioa.hangman;
 
 /**
  * Created by NegatioN on 19.08.2014.
+ * A class representing a single letter in a word which gives us the ability to check if
+ * it should be made visible to the user.
  */
 public class Letter {
     private String letter;

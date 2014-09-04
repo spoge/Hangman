@@ -28,7 +28,7 @@ public class Hangman extends Activity {
     private LinearLayout letterHolder;
     private ArrayAdapter<Letter> adapter;
     private ImageView hangedMan;
-    private String[] wordsByLanguage;
+    private WordDatabase wdb;
 
     public static int FAULTS = 0;
     public static int LEFT = -1; // how many letters left til victory
@@ -42,6 +42,10 @@ public class Hangman extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangman);
 
+        
+        //creates our database with words from the selected language-option
+        wdb = new WordDatabase(fetchWords());
+        
         // creating hangman-image
         hangedMan = (ImageView) findViewById(R.id.imageView);
         ViewHandler.hang(this, hangedMan, FAULTS);
@@ -66,9 +70,11 @@ public class Hangman extends Activity {
 
         //generates keyboard buttons
         buttonGenerator();
+      
+        
+        
     }
 
-    //llama was here
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -114,6 +120,7 @@ public class Hangman extends Activity {
 
     // takes user input-letter and checks our textviews to see if they are matching
     public void updateTextViews(String inputLetter ){
+    	
         boolean found = checkInputLetter(inputLetter);
         //if the letter is not found, user has made a wrong guess, and the man inches closer to death.
         if(!found) {
@@ -140,7 +147,7 @@ public class Hangman extends Activity {
     private boolean checkInputLetter(String inputLetter){
         boolean found = false;
         for(Letter letter: letters){
-            if(letter.getLetter().equals(inputLetter)){
+            if(letter.getLetter().equalsIgnoreCase(inputLetter)){
                 letter.setVisible(true);
                 found = true;
             }
@@ -161,7 +168,7 @@ public class Hangman extends Activity {
     // dynamically generates our keyboard based on language/input
     @SuppressLint("InflateParams") 
     private void buttonGenerator(){
-        String keyboard = "ABCDEFGHIJKLMNOPQRSTUVWXYZ∆ÿ≈";
+        String keyboard = getResources().getString(R.string.keyboard);
         //when buttoncount passes each 10, we switch to another layout
         //this is to avoid having to implement a heavy method of analyzing the size of the screen
         int buttonCount = 0;
@@ -193,9 +200,9 @@ public class Hangman extends Activity {
         }
     }
 
-
-    private void fetchWords(){
-    	wordsByLanguage = getResources().getStringArray(R.array.words);
+    //gets words from language.array.words
+    private String[] fetchWords(){
+    	return getResources().getStringArray(R.array.words);
     }
 
     /**
@@ -205,7 +212,7 @@ public class Hangman extends Activity {
 
     private ArrayList<Letter> getRandomWord(ArrayList<Letter> al) {
         al = new ArrayList<Letter>();
-        String s = WordDatabase.getRandomWord();
+        String s = wdb.getRandomWord();
         char[] c = s.toCharArray();
         for(int i = 0; i < c.length; i++)
             al.add(new Letter(c[i]+"", false));
@@ -216,7 +223,7 @@ public class Hangman extends Activity {
 
     private ArrayList<Letter> getRandomWord(ArrayList<Letter> al, String except) {
         al = new ArrayList<Letter>();
-        String s = WordDatabase.getRandomWord(except);
+        String s = wdb.getRandomWord(except);
         char[] c = s.toCharArray();
         for(int i = 0; i < c.length; i++)
             al.add(new Letter(c[i]+"", false));

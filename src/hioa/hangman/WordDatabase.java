@@ -4,40 +4,33 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import android.util.Log;
+
 /**
  * Created by Sondre on 23.08.2014.
  * Database containing multiple words
  */
 public class WordDatabase {
-    private static ArrayList<Word> words = new ArrayList<Word>();
+    private ArrayList<Word> words = new ArrayList<Word>();
 
-    // running at onCreate
-    static{
-        words.add(new Word("MOTHERFUCKER"));
-        words.add(new Word("DOVENDYR"));
-        words.add(new Word("RUMPEBALLE"));
-        words.add(new Word("FJELLSAU"));
-        words.add(new Word("LLAMA"));
-        words.add(new Word("RANDOM"));
-        words.add(new Word("RUSS"));
-        words.add(new Word("LARS"));
-        words.add(new Word("ERIK"));
-        words.add(new Word("KJEMPE"));
-        words.add(new Word("SMART"));
-        words.add(new Word("IKKE"));
-        words.add(new Word("RETARD"));
-        words.add(new Word("HILSEN"));
+    
+    //generates a new database with the string-array retrieved from values.arrays.words depending on language-settings
+    public WordDatabase(String[] words){
+    	for(String word : words){
+    		Word w = new Word(word);
+    		this.words.add(w);
+    	}
     }
 
     // returns a random word
-    public static String getRandomWord() {
+    public String getRandomWord() {
         Random r = new Random();
         int i = r.nextInt(words.size());
         return words.get(i).word;
     }
 
     // returns a random word, except the input word
-    public static String getRandomWord(String except) {
+    public String getRandomWord(String except) {
         int p = getIndex(except);
         int l = words.size() - 1;
         Collections.swap(words, p, l);
@@ -51,7 +44,7 @@ public class WordDatabase {
     }
 
     // index of input in the words-list, return -1 if it is not i list
-    private static int getIndex(String in) {
+    private int getIndex(String in) {
         for(int i = 0; i < words.size(); i++)
             if(words.get(i).word.equals(in)) return i;
         return -1; // not found
