@@ -1,3 +1,5 @@
 *.properties
 *.apk
 *.properties
+*.class
+bin/
