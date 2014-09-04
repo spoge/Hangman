@@ -1,8 +1,11 @@
 package hioa.hangman;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class Menu extends Activity {
 
@@ -10,6 +13,17 @@ public class Menu extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
+		
+		//find all buttons for menu, and add actionlisteners
+		Button start = (Button) findViewById(R.id.buttonStart);
+		Button rules = (Button) findViewById(R.id.buttonRules);
+		Button languages = (Button) findViewById(R.id.buttonLanguages);
+		Button exit = (Button) findViewById(R.id.buttonExit);
+		setupButton(start);
+		setupButton(rules);
+		setupButton(languages);
+		setupButton(exit);
+		
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -29,4 +43,31 @@ public class Menu extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+    //starts our new activities. add proper intent to switch-case
+    private void startNewActivity(View v){
+        Intent i = null;
+        switch(v.getId()){
+            case R.id.buttonStart:
+                i = new Intent(getApplicationContext(), Hangman.class);
+                break;
+            case R.id.buttonExit:
+            	finish();
+            	return;
+            default:
+                i = new Intent(getApplicationContext(), Hangman.class);
+                break;
+        }
+        startActivity(i);
+    }
+    
+    //sets the onclick-listener for our button.
+    private void setupButton(Button button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startNewActivity(v);
+            }
+        });
+    }
 }

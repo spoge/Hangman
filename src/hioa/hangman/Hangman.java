@@ -44,7 +44,7 @@ public class Hangman extends Activity {
         hangedMan = (ImageView) findViewById(R.id.imageView);
         ViewHandler.hang(this, hangedMan, FAULTS);
 
-        //creation of letterboxes
+        //creation of the underlined boxes for the letters on screen
         letters = new ArrayList<Letter>();
 
         letterHolder = (LinearLayout) findViewById(R.id.llHorizontal);
