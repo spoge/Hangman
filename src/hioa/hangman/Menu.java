@@ -54,6 +54,9 @@ public class Menu extends Activity {
             case R.id.buttonExit:
             	finish();
             	return;
+            case R.id.buttonLanguages:
+            	i = new Intent(getApplicationContext(), Language.class);
+            	break;
             default:
                 i = new Intent(getApplicationContext(), Hangman.class);
                 break;

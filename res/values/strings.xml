@@ -11,5 +11,6 @@
     <string name="language_button">Språk</string>
     <string name="end_game_button">Avslutt</string>
     <string name="title_activity_menu">Menu</string>
+    <string name="title_activity_language">Language</string>
 
 </resources>

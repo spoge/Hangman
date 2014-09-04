@@ -28,12 +28,14 @@ public class Hangman extends Activity {
     private LinearLayout letterHolder;
     private ArrayAdapter<Letter> adapter;
     private ImageView hangedMan;
+    private String[] wordsByLanguage;
 
     public static int FAULTS = 0;
     public static int LEFT = -1; // how many letters left til victory
 
     private final int WON = 1, LOST = -1, PLAYING = 0; // int values represesnting which state the game is in
     private static int STATE = 0; // current state of the game
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,8 +194,8 @@ public class Hangman extends Activity {
     }
 
 
-    private void generateWordToArrayList(ArrayList<Letter> al, SQLiteDatabase dictionary){
-
+    private void fetchWords(){
+    	wordsByLanguage = getResources().getStringArray(R.array.words);
     }
 
     /**

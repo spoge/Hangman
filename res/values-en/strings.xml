@@ -10,4 +10,6 @@
 	<string name="lose_message">You lost!</string>
 	<string name="score">Score: </string>
 	<string name="keyboard">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+	<string name="norwegian_language">Norwegian</string>
+	<string name="english_language">English</string>
 </resources>
