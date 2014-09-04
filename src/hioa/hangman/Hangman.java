@@ -1,32 +1,30 @@
 package hioa.hangman;
 
+import hioa.hangman.logic.ArrayListAdapter;
+import hioa.hangman.logic.ViewHandler;
+
+import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
-import hioa.hangman.logic.ArrayListAdapter;
-import hioa.hangman.logic.ViewHandler;
-
 
 public class Hangman extends Activity {
 
     private ArrayList<Letter> letters;
     private LinearLayout letterHolder;
-    private ArrayAdapter<Letter> adapter;
     private ImageView hangedMan;
     private WordDatabase wdb;
 
@@ -36,12 +34,14 @@ public class Hangman extends Activity {
     private final int WON = 1, LOST = -1, PLAYING = 0; // int values represesnting which state the game is in
     private static int STATE = 0; // current state of the game
     
-
+    private static Context mContext;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangman);
 
+        mContext = this;
         
         //creates our database with words from the selected language-option
         wdb = new WordDatabase(fetchWords());
@@ -57,7 +57,7 @@ public class Hangman extends Activity {
         letters = getRandomWord(letters);
 
         //we refernce this adapter later when we want to make changes to the textviews
-        adapter = ArrayListAdapter.addViews(this, letters, letterHolder);
+        ArrayListAdapter.addViews(this, letters, letterHolder);
 
         // generates resetbutton
         Button buttonReset = (Button) findViewById(R.id.buttonReset);
@@ -68,11 +68,13 @@ public class Hangman extends Activity {
             }
         });
 
-        //generates keyboard buttons
+        // generates keyboard buttons
         buttonGenerator();
-      
-        
-        
+    }
+    
+    // used in ViewHandler to reset textcolor on keyboard-buttons
+    public static Context getContext(){
+    	return mContext;
     }
 
     @Override
@@ -102,10 +104,12 @@ public class Hangman extends Activity {
         }
 
         Button button = (Button) view;
-        updateTextViews(button.getText().toString());
         view.setEnabled(false);
+        updateTextViews(button.getText().toString(), button);
         ViewHandler.hang(this, hangedMan, FAULTS);
 
+        
+        
         STATE = checkState();
         if(STATE == WON) Toast.makeText(this, "YOU WON!", Toast.LENGTH_SHORT).show();
         else if(STATE == LOST) Toast.makeText(this, "YOU LOST!", Toast.LENGTH_SHORT).show();
@@ -119,15 +123,18 @@ public class Hangman extends Activity {
     }
 
     // takes user input-letter and checks our textviews to see if they are matching
-    public void updateTextViews(String inputLetter ){
+    public void updateTextViews(String inputLetter, Button button){
     	
         boolean found = checkInputLetter(inputLetter);
         //if the letter is not found, user has made a wrong guess, and the man inches closer to death.
         if(!found) {
             FAULTS++;
-            //Toast.makeText(this, inputLetter + " er ikke med i ordet.", Toast.LENGTH_SHORT).show();
+            button.setTextColor(getResources().getColor(R.color.wrong));
         }
-        else LEFT = ArrayListAdapter.getLettersLeft(letters);
+        else {
+        	LEFT = ArrayListAdapter.getLettersLeft(letters);
+        	button.setTextColor(getResources().getColor(R.color.correct));
+        }
 
         //after this we remove and reload all guessed letter-views
         updateWordView(letters);
@@ -140,7 +147,7 @@ public class Hangman extends Activity {
         if(letterHolder.getChildCount() > 0)
             letterHolder.removeAllViews();
 
-        adapter = ArrayListAdapter.addViews(this, letters, letterHolder);
+        ArrayListAdapter.addViews(this, letters, letterHolder);
     }
 
     // was our guessed letter part of the word?

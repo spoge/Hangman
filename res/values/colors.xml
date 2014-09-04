@@ -1,7 +1,10 @@
 <resources>
 
     <color name="black_overlay">#66000000</color>
-    <color name="lightGray">#F0F0F0</color>
+    <color name="lightgray">#F0F0F0</color>
     <color name="gray">#DCDCDC</color>
-
+    <color name="correct">#00FF00</color>
+    <color name="wrong">#FF0000</color>
+	<color name="black">#000000</color>
+	<color name="white">#FFFFFF</color>
 </resources>

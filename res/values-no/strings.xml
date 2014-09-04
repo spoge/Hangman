@@ -13,4 +13,12 @@
     <string name="norwegian_language">Norsk</string>
     <string name="english_language">Engelsk</string>
 
+    <string name="app_name">Hangman</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="filler">filler</string>
+    <string name="title_activity_start_screen">StartScreen</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="title_activity_language">Language</string>
+    
 </resources>
