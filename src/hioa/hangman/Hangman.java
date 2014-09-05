@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 public class Hangman extends Activity {
 
     private ArrayList<Letter> letters;
@@ -30,13 +29,13 @@ public class Hangman extends Activity {
     private GameLogic gl;
     private TextView wins, losses;
 
+    private String word = ""; // current word, remove later?
+    
     public static int FAULTS = 0;
     public static int LEFT = -1; // how many letters left til victory
 
     private final int WON = 1, LOST = -1, PLAYING = 0; // int values represesnting which state the game is in
     private static int STATE = 0; // current state of the game
-    
-    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +61,11 @@ public class Hangman extends Activity {
         //we refernce this adapter later when we want to make changes to the textviews
         ArrayListAdapter.addViews(this, letters, letterHolder);
 
-
-
         // generates keyboard buttons
         buttonGenerator();
         
         wins = (TextView) findViewById(R.id.tvWins);
         losses = (TextView) findViewById(R.id.tvLosses);
-        
     }
 
     @Override
@@ -104,8 +100,6 @@ public class Hangman extends Activity {
         view.setEnabled(false);
         updateTextViews(button.getText().toString(), button);
         ViewHandler.hang(this, hangedMan, FAULTS);
-
-        
         
         STATE = checkState();
         
@@ -229,14 +223,15 @@ public class Hangman extends Activity {
      *
      * Legg all test-kode på bunnen
      */
-
+    
     private ArrayList<Letter> getRandomWord(ArrayList<Letter> al) {
         al = new ArrayList<Letter>();
-        String s = wdb.getRandomWord();
+        String s = wdb.getRandomWord(word);
         char[] c = s.toCharArray();
         for(int i = 0; i < c.length; i++)
             al.add(new Letter(c[i]+"", false));
 
+        word = s;
         LEFT = ArrayListAdapter.getLettersLeft(al);
         return al;
     }
