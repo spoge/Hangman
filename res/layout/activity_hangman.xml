@@ -40,25 +40,24 @@
 
                 <TextView
                     android:id="@+id/tvWins"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/shadowedText"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
+                    android:layout_marginTop="20dp"
                     android:layout_marginLeft="25dp"
                     android:text="@string/display_wins"
-                    android:textColor="@color/correct"
-                    android:textSize="25sp" />
+                    android:textColor="@color/correct" />
 
                 <TextView
                 	android:id="@+id/tvLosses"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                	style="@style/shadowedText"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="55dp"
                     android:text="@string/display_losses"
                     android:textColor="@color/wrong"
-                    android:textSize="25sp"  />
+                      />
             </RelativeLayout>
         </LinearLayout>
 

@@ -114,7 +114,7 @@ public class Hangman extends Activity {
         if(STATE == WON){
         	win = true;
         	Toast.makeText(this, "YOU WON!", Toast.LENGTH_SHORT).show();
-        	//gets language-spesific text and updates number of losses
+        	//gets language-spesific text and updates number of wins
         	String langWin = getResources().getString(R.string.display_wins);
         	wins.setText(langWin + gl.updateWinLoss(win));
         }
