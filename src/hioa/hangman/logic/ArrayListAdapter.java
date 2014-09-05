@@ -29,7 +29,6 @@ public class ArrayListAdapter {
         for(int i = 0; i < adapterCount;i++){
             TextView textView = (TextView) adapter.getView(i, null, null);
             Letter letter = letters.get(i);
-            Log.d("adapter.Letter", letter.getLetter() + " is made");
             textView.setText(letter.getLetter());
             //hides the letter if it has still not been pressed
             //highlights the ones that has been correctly been pressed

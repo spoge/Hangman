@@ -1,13 +1,13 @@
 package hioa.hangman;
 
 import hioa.hangman.logic.ArrayListAdapter;
+import hioa.hangman.logic.GameLogic;
 import hioa.hangman.logic.ViewHandler;
 
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +27,7 @@ public class Hangman extends Activity {
     private LinearLayout letterHolder;
     private ImageView hangedMan;
     private WordDatabase wdb;
+    private GameLogic gl;
 
     public static int FAULTS = 0;
     public static int LEFT = -1; // how many letters left til victory
@@ -34,17 +35,17 @@ public class Hangman extends Activity {
     private final int WON = 1, LOST = -1, PLAYING = 0; // int values represesnting which state the game is in
     private static int STATE = 0; // current state of the game
     
-    private static Context mContext;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangman);
-
-        mContext = this;
         
         //creates our database with words from the selected language-option
         wdb = new WordDatabase(fetchWords());
+        
+        //starts our gamelogic at 0 wins 0 losses, can be modified to store in sharedpreferences
+        gl = new GameLogic(0,0);
         
         // creating hangman-image
         hangedMan = (ImageView) findViewById(R.id.imageView);
@@ -63,11 +64,6 @@ public class Hangman extends Activity {
 
         // generates keyboard buttons
         buttonGenerator();
-    }
-    
-    // used in ViewHandler to reset textcolor on keyboard-buttons
-    public static Context getContext(){
-    	return mContext;
     }
 
     @Override
@@ -106,8 +102,18 @@ public class Hangman extends Activity {
         
         
         STATE = checkState();
-        if(STATE == WON) Toast.makeText(this, "YOU WON!", Toast.LENGTH_SHORT).show();
-        else if(STATE == LOST) Toast.makeText(this, "YOU LOST!", Toast.LENGTH_SHORT).show();
+        
+        boolean win;
+        if(STATE == WON){
+        	win = true;
+        	Toast.makeText(this, "YOU WON!", Toast.LENGTH_SHORT).show();
+        	gl.updateWinLoss(win);
+        }
+        else if(STATE == LOST){ 
+        	win = false;
+        	Toast.makeText(this, "YOU LOST!", Toast.LENGTH_SHORT).show();
+        	gl.updateWinLoss(win);
+        }
     }
 
     // checks the game-state (win/lose)
@@ -194,7 +200,7 @@ public class Hangman extends Activity {
             Log.d("ButtonGenerator", buttonCount + " ");
             addToLayout.addView(letterButton);
 
-            //space between buttons, little hack method...
+            //inflates empty space between buttons
             TextView space = (TextView) LayoutInflater.from(this).inflate(R.layout.keyboard_space, null);
             addToLayout.addView(space);
 
@@ -202,6 +208,7 @@ public class Hangman extends Activity {
         }
     }
 
+    
     //gets words from language.array.words
     private String[] fetchWords(){
     	return getResources().getStringArray(R.array.words);
