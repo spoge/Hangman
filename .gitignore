@@ -10,3 +10,4 @@ bin/
 *.ap_
 *.apk
 *.dex
+bin/classes/hioa/hangman/Hangman.class

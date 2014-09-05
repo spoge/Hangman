@@ -223,25 +223,5 @@ public class Hangman extends Activity {
         return al;
     }
 
-    private ArrayList<Letter> getRandomWord(ArrayList<Letter> al, String except) {
-        al = new ArrayList<Letter>();
-        String s = wdb.getRandomWord(except);
-        char[] c = s.toCharArray();
-        for(int i = 0; i < c.length; i++)
-            al.add(new Letter(c[i]+"", false));
-
-        return al;
-    }
-
-    // method to bind the array of letters to our custom adapter
-    private ArrayList<Letter> testArrayList(ArrayList<Letter> al){
-        al = new ArrayList<Letter>();
-        String s = "MOTHERFUCKER";
-        char[] c = s.toCharArray();
-        for(int i = 0; i < c.length; i++)
-            al.add(new Letter(c[i]+"", false));
-
-        return al;
-    }
 
 }
