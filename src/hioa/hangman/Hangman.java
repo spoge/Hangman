@@ -59,15 +59,6 @@ public class Hangman extends Activity {
         //we refernce this adapter later when we want to make changes to the textviews
         adapter = ArrayListAdapter.addViews(this, letters, letterHolder);
 
-        // generates resetbutton
-        Button buttonReset = (Button) findViewById(R.id.buttonReset);
-        buttonReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reset(v);
-            }
-        });
-
         //generates keyboard buttons
         buttonGenerator();
       
@@ -88,7 +79,9 @@ public class Hangman extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        //gets us a new word for the game, accessible through actionbar.
+        if (id == R.id.action_refresh) {
+        	reset();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -156,7 +149,7 @@ public class Hangman extends Activity {
     }
 
     //resets the screen after a game has been completed by the user, or reset-button has been pressed
-    private void reset(View view){
+    private void reset(){
         FAULTS = 0;
         STATE = PLAYING;
         letters = getRandomWord(letters);

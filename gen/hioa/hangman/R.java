@@ -88,26 +88,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int hangman_8=0x7f02000c;
         public static final int hangman_9=0x7f02000d;
         public static final int ic_launcher=0x7f02000e;
-        public static final int underline9patch=0x7f02000f;
+        public static final int ic_refresh=0x7f02000f;
+        public static final int underline9patch=0x7f020010;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0010;
-        public static final int butonNorwegian=0x7f0a0008;
-        public static final int buttonEnglish=0x7f0a0009;
-        public static final int buttonExit=0x7f0a000d;
-        public static final int buttonLanguages=0x7f0a000c;
-        public static final int buttonReset=0x7f0a0002;
-        public static final int buttonRules=0x7f0a000b;
-        public static final int buttonStart=0x7f0a000a;
-        public static final int emptySpace=0x7f0a000e;
+        public static final int action_refresh=0x7f0a0010;
+        public static final int action_settings=0x7f0a000f;
+        public static final int butonNorwegian=0x7f0a0007;
+        public static final int buttonEnglish=0x7f0a0008;
+        public static final int buttonExit=0x7f0a000c;
+        public static final int buttonLanguages=0x7f0a000b;
+        public static final int buttonRules=0x7f0a000a;
+        public static final int buttonStart=0x7f0a0009;
+        public static final int emptySpace=0x7f0a000d;
         public static final int image=0x7f0a0000;
         public static final int imageView=0x7f0a0001;
-        public static final int llBotKeyboard=0x7f0a0007;
-        public static final int llHorizontal=0x7f0a0003;
-        public static final int llMidKeyboard=0x7f0a0005;
-        public static final int llTopKeyboard=0x7f0a0004;
-        public static final int llmBotKeyboard=0x7f0a0006;
-        public static final int tvLetter=0x7f0a000f;
+        public static final int llBotKeyboard=0x7f0a0006;
+        public static final int llHorizontal=0x7f0a0002;
+        public static final int llMidKeyboard=0x7f0a0004;
+        public static final int llTopKeyboard=0x7f0a0003;
+        public static final int llmBotKeyboard=0x7f0a0005;
+        public static final int tvLetter=0x7f0a000e;
     }
     public static final class layout {
         public static final int activity_hangman=0x7f030000;
