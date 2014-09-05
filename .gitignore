@@ -7,3 +7,6 @@ bin/
 *.dex
 *.apk
 *.ap_
+*.ap_
+*.apk
+*.dex
