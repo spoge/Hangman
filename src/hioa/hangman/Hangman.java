@@ -28,12 +28,14 @@ public class Hangman extends Activity {
     private ImageView hangedMan;
     private WordDatabase wdb;
     private GameLogic gl;
+    private TextView wins, losses;
 
     public static int FAULTS = 0;
     public static int LEFT = -1; // how many letters left til victory
 
     private final int WON = 1, LOST = -1, PLAYING = 0; // int values represesnting which state the game is in
     private static int STATE = 0; // current state of the game
+    
     
     
     @Override
@@ -64,6 +66,10 @@ public class Hangman extends Activity {
 
         // generates keyboard buttons
         buttonGenerator();
+        
+        wins = (TextView) findViewById(R.id.tvWins);
+        losses = (TextView) findViewById(R.id.tvLosses);
+        
     }
 
     @Override
@@ -104,15 +110,20 @@ public class Hangman extends Activity {
         STATE = checkState();
         
         boolean win;
+        
         if(STATE == WON){
         	win = true;
         	Toast.makeText(this, "YOU WON!", Toast.LENGTH_SHORT).show();
-        	gl.updateWinLoss(win);
+        	//gets language-spesific text and updates number of losses
+        	String langWin = getResources().getString(R.string.display_wins);
+        	wins.setText(langWin + gl.updateWinLoss(win));
         }
         else if(STATE == LOST){ 
         	win = false;
         	Toast.makeText(this, "YOU LOST!", Toast.LENGTH_SHORT).show();
-        	gl.updateWinLoss(win);
+        	//gets language-spesific text and updates number of losses
+        	String langLoss = getResources().getString(R.string.display_losses);
+        	losses.setText(langLoss + gl.updateWinLoss(win));
         }
     }
 

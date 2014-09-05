@@ -1,5 +1,7 @@
 package hioa.hangman.logic;
 
+import android.widget.TextView;
+
 public class GameLogic {
 	private int wins, losses;
 	
@@ -16,11 +18,12 @@ public class GameLogic {
 		return losses;
 	}
 	
-	public void updateWinLoss(boolean win){
+	//returns win or loss depending on what happened.
+	public int updateWinLoss(boolean win){
 		if(win)
-			wins++;
+			return ++wins;
 		else
-			losses++;
+			return ++losses;
 	}
 	
 }
