@@ -29,6 +29,13 @@ public class ArrayListAdapter {
         for(int i = 0; i < adapterCount;i++){
             TextView textView = (TextView) adapter.getView(i, null, null);
             Letter letter = letters.get(i);
+            
+            //if the character is a whitepace, automatically set to visible and removes underline
+            if(letter.getLetter().matches(" ")){
+            	letters.get(i).setVisible(true);
+            	textView.setBackgroundColor(Color.TRANSPARENT);
+            }
+            
             textView.setText(letter.getLetter());
             //hides the letter if it has still not been pressed
             //highlights the ones that has been correctly been pressed
