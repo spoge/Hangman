@@ -1,16 +1,13 @@
 package hioa.hangman.logic;
 
+import hioa.hangman.R;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
-import hioa.hangman.Hangman;
-import hioa.hangman.R;
 
 /**
  * Created by NegatioN on 20.08.2014.
@@ -32,19 +29,20 @@ public class ViewHandler {
 
     //eneable all buttons contained in the keyboard-layouts
     public static void resetKeyboard(Activity activity){
+    	Context c = activity.getApplicationContext();
+    	
         LinearLayout layout = (LinearLayout) activity.findViewById(R.id.llTopKeyboard);
-        resetLayoutChildViews(layout);
+        resetLayoutChildViews(layout,c);
         layout = (LinearLayout) activity.findViewById(R.id.llMidKeyboard);
-        resetLayoutChildViews(layout);
+        resetLayoutChildViews(layout,c);
         layout = (LinearLayout) activity.findViewById(R.id.llmBotKeyboard);
-        resetLayoutChildViews(layout);
+        resetLayoutChildViews(layout,c);
         layout = (LinearLayout) activity.findViewById(R.id.llBotKeyboard);
-        resetLayoutChildViews(layout);
+        resetLayoutChildViews(layout,c);
     }
     //enable buttons for one layout
-    private static void resetLayoutChildViews(LinearLayout layout){
+    private static void resetLayoutChildViews(LinearLayout layout, Context context){
         int childCount = layout.getChildCount();
-    	Context context = Hangman.getContext();
 
         for(int i = 0; i < childCount; i++){
             View v = layout.getChildAt(i);
