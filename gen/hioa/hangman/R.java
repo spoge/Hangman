@@ -55,9 +55,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int metaButtonBarStyle=0x7f010000;
     }
     public static final class color {
+        public static final int black=0x7f050005;
         public static final int black_overlay=0x7f050000;
+        public static final int correct=0x7f050003;
         public static final int gray=0x7f050002;
-        public static final int lightGray=0x7f050001;
+        public static final int lightgray=0x7f050001;
+        public static final int white=0x7f050006;
+        public static final int wrong=0x7f050004;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -128,21 +132,21 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int action_settings=0x7f070002;
         public static final int app_name=0x7f070000;
         public static final int end_game_button=0x7f070008;
-        public static final int english_language=0x7f070011;
+        public static final int english_language=0x7f070010;
         public static final int filler=0x7f070003;
         public static final int hello_world=0x7f070001;
-        public static final int keyboard=0x7f07000f;
+        public static final int keyboard=0x7f07000e;
         public static final int language_button=0x7f070007;
-        public static final int lose_message=0x7f07000d;
-        public static final int norwegian_language=0x7f070010;
+        public static final int lose_message=0x7f07000c;
+        public static final int norwegian_language=0x7f07000f;
         public static final int play_button=0x7f070005;
         public static final int rules_button=0x7f070006;
-        public static final int score=0x7f07000e;
-        public static final int settings_button=0x7f07000b;
+        public static final int score=0x7f07000d;
+        public static final int settings_button=0x7f070011;
         public static final int title_activity_language=0x7f07000a;
         public static final int title_activity_menu=0x7f070009;
         public static final int title_activity_start_screen=0x7f070004;
-        public static final int win_message=0x7f07000c;
+        public static final int win_message=0x7f07000b;
     }
     public static final class style {
         /** 

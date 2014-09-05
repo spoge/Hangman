@@ -3,3 +3,7 @@
 *.properties
 *.class
 bin/
+*.class
+*.dex
+*.apk
+*.ap_

@@ -2,12 +2,14 @@ package hioa.hangman.logic;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import hioa.hangman.Hangman;
 import hioa.hangman.R;
 
 /**
@@ -42,9 +44,15 @@ public class ViewHandler {
     //enable buttons for one layout
     private static void resetLayoutChildViews(LinearLayout layout){
         int childCount = layout.getChildCount();
+    	Context context = Hangman.getContext();
 
         for(int i = 0; i < childCount; i++){
             View v = layout.getChildAt(i);
+            try{
+            	Button b = (Button) v;
+            	b.setTextColor(context.getResources().getColor(R.color.black));
+            }
+            catch(Exception e) {}
             v.setEnabled(true);
         }
     }

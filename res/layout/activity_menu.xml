@@ -15,30 +15,38 @@
         android:layout_height="wrap_content"
         android:background="#99000000"
         android:orientation="vertical"
-        android:padding="5dp" >
+        android:padding="7dp" >
         
         <Button
             android:id="@+id/buttonStart"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="@string/play_button" />
+            android:layout_width="190dp"
+            android:layout_height="60dp"
+            android:textSize="24sp"
+            android:text="@string/play_button"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/buttonRules"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_width="190dp"
+            android:layout_height="60dp"
+            android:textSize="24sp"
+            android:textColor="@color/white"
             android:text="@string/rules_button" />
 
         <Button
             android:id="@+id/buttonLanguages"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_width="190dp"
+            android:layout_height="60dp"
+            android:textSize="24sp"
+            android:textColor="@color/white"
             android:text="@string/language_button" />
 
         <Button
             android:id="@+id/buttonExit"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_width="190dp"
+            android:layout_height="60dp"
+            android:textSize="24sp"
+            android:textColor="@color/white"
             android:text="@string/end_game_button" />
 
     </LinearLayout>

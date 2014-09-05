@@ -13,4 +13,11 @@
     <string name="title_activity_menu">Menu</string>
     <string name="title_activity_language">Language</string>
 
+    <string name="win_message">Du vant!</string>
+    <string name="lose_message">Du tapte</string>
+    <string name="score">Poengsum: </string>
+    <string name="keyboard">ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ</string>
+    <string name="norwegian_language">Norsk</string>
+    <string name="english_language">Engelsk</string>
+    
 </resources>
