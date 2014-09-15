@@ -30,6 +30,7 @@ public class Hangman extends Activity {
     private TextView wins, losses;
 
     private String word = ""; // current word, remove later?
+    private Keyboard keyboard;
     
     public static int FAULTS = 0;
     public static int LEFT = -1; // how many letters left til victory
@@ -60,20 +61,80 @@ public class Hangman extends Activity {
 
         //we refernce this adapter later when we want to make changes to the textviews
         ArrayListAdapter.addViews(this, letters, letterHolder);
-
+        
+        // the keyboard itself, easier to configure
+        keyboard = new Keyboard(getResources().getString(R.string.keyboard));
+        
         // generates keyboard buttons
         buttonGenerator();
         
         wins = (TextView) findViewById(R.id.tvWins);
         losses = (TextView) findViewById(R.id.tvLosses);
     }
+    
+    protected void onSaveInstanceState (Bundle outState) {
+    	outState.putInt("faults", FAULTS);
+    	outState.putInt("left", LEFT);
+    	outState.putInt("wins", gl.getWins());
+    	outState.putInt("losses", gl.getLosses());
 
+    	char[] c = new char[letters.size()];
+    	for(int i = 0; i < c.length; i++) c[i] = letters.get(i).getCharLetter();
+    	outState.putCharArray("letters", c);
+    	
+    	boolean[] visible = new boolean[letters.size()];
+    	for(int i = 0; i < visible.length; i++) visible[i] = letters.get(i).isVisible();
+    	outState.putBooleanArray("visible", visible);
+    	
+    	outState.putIntArray("keyboard", keyboard.getState());
+    	
+        super.onSaveInstanceState(outState);
+    }
+    
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        
+        FAULTS = savedInstanceState.getInt("faults");
+        LEFT = savedInstanceState.getInt("left");
+        int w = savedInstanceState.getInt("wins");
+        int l = savedInstanceState.getInt("losses");
+        char[] c = savedInstanceState.getCharArray("letters");
+        boolean[] visible = savedInstanceState.getBooleanArray("visible");
+        int[] keys = savedInstanceState.getIntArray("keyboard");
+        
+        gl = new GameLogic(w, l);
+
+        letters = new ArrayList<Letter>();
+        for(int i = 0; i < c.length; i++) letters.add(new Letter(c[i]+"", visible[i]));
+        
+        //keyboard = new Keyboard(getResources().getString(R.string.keyboard));
+        keyboard.update(keys);
+        
+        updateUI();
+    }
+    
+    public void updateUI() {
+    	String langWin = getResources().getString(R.string.display_wins);
+    	wins.setText(langWin + gl.getWins());
+    	String langLoss = getResources().getString(R.string.display_losses);
+    	losses.setText(langLoss + gl.getLosses());
+    	
+    	hangedMan = (ImageView) findViewById(R.id.imageView);
+        ViewHandler.hang(this, hangedMan, FAULTS);
+        
+        updateWordView(letters);
+        
+        keyboard.update(this);
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+    
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -130,16 +191,18 @@ public class Hangman extends Activity {
 
     // takes user input-letter and checks our textviews to see if they are matching
     public void updateTextViews(String inputLetter, Button button){
-    	
         boolean found = checkInputLetter(inputLetter);
+        
         //if the letter is not found, user has made a wrong guess, and the man inches closer to death.
         if(!found) {
             FAULTS++;
             button.setTextColor(getResources().getColor(R.color.wrong));
+            keyboard.update(inputLetter, LOST);
         }
         else {
         	LEFT = ArrayListAdapter.getLettersLeft(letters);
         	button.setTextColor(getResources().getColor(R.color.correct));
+        	keyboard.update(inputLetter, WON);
         }
 
         //after this we remove and reload all guessed letter-views
@@ -160,7 +223,7 @@ public class Hangman extends Activity {
     private boolean checkInputLetter(String inputLetter){
         boolean found = false;
         for(Letter letter: letters){
-            if(letter.getLetter().equalsIgnoreCase(inputLetter)){
+            if(letter.toString().equalsIgnoreCase(inputLetter)){
                 letter.setVisible(true);
                 found = true;
             }
@@ -173,28 +236,30 @@ public class Hangman extends Activity {
         FAULTS = 0;
         STATE = PLAYING;
         letters = getRandomWord(letters);
-        ViewHandler.resetKeyboard(this);
-        ViewHandler.hang(this,hangedMan, FAULTS);
+        //ViewHandler.resetKeyboard(this, keyboard.getState());
+        keyboard.reset(this);
+        ViewHandler.hang(this, hangedMan, FAULTS);
         updateWordView(letters);
     }
 
     // dynamically generates our keyboard based on language/input
     @SuppressLint("InflateParams") 
     private void buttonGenerator(){
-        String keyboard = getResources().getString(R.string.keyboard);
+        String keyboardString = getResources().getString(R.string.keyboard);
         //when buttoncount passes each 10, we switch to another layout
         //this is to avoid having to implement a heavy method of analyzing the size of the screen
         int buttonCount = 0;
         int rowlength = 8;
-
-        for(int i = 0; i < keyboard.length(); i++){
-            Button letterButton = ViewHandler.generateButton(this, Character.toString(keyboard.charAt(i)));
-
+        //keyboard.buttons.clear();
+        
+        for(int i = 0; i < keyboardString.length(); i++){
+            Button letterButton = ViewHandler.generateButton(this, Character.toString(keyboardString.charAt(i)));
             letterButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     executeButtonClick(v);
                 }
             });
+            
             LinearLayout addToLayout;
 
             if(buttonCount < rowlength) addToLayout = (LinearLayout) findViewById(R.id.llTopKeyboard);
@@ -204,6 +269,7 @@ public class Hangman extends Activity {
 
             Log.d("ButtonGenerator", buttonCount + " ");
             addToLayout.addView(letterButton);
+            keyboard.addButton(letterButton);
 
             //inflates empty space between buttons
             TextView space = (TextView) LayoutInflater.from(this).inflate(R.layout.keyboard_space, null);
@@ -211,6 +277,10 @@ public class Hangman extends Activity {
 
             buttonCount++;
         }
+    }
+    
+    public void updateKeyboard() {
+    	keyboard.update(this);
     }
 
     

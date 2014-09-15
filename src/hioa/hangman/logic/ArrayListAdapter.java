@@ -25,18 +25,18 @@ public class ArrayListAdapter {
         ArrayAdapter<Letter> adapter = new ArrayAdapter<Letter>(c, R.layout.tv_layout, letters);
         final int adapterCount = adapter.getCount();
 
-        //spawner hver enkelt textview her
+        // makes every single textview here
         for(int i = 0; i < adapterCount;i++){
             TextView textView = (TextView) adapter.getView(i, null, null);
             Letter letter = letters.get(i);
             
             //if the character is a whitepace, automatically set to visible and removes underline
-            if(letter.getLetter().matches(" ")){
+            if(letter.toString().matches(" ")){
             	letters.get(i).setVisible(true);
             	textView.setBackgroundColor(Color.TRANSPARENT);
             }
             
-            textView.setText(letter.getLetter());
+            textView.setText(letter.toString());
             //hides the letter if it has still not been pressed
             //highlights the ones that has been correctly been pressed
             if(letter.isVisible()){
