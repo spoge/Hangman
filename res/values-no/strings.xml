@@ -12,7 +12,6 @@
     <string name="keyboard">ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ</string>
     <string name="norwegian_language">Norsk</string>
     <string name="english_language">Engelsk</string>
-	<string name="current_language">Norsk</string>
     <string name="reset_message">Spillet er ferdig, trykk \"Reset\"</string>
     <string name="display_losses">Vinn: </string>
 	<string name="display_wins">Tap: </string>

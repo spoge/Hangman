@@ -5,6 +5,7 @@ import hioa.hangman.logic.GameLogic;
 import hioa.hangman.logic.ViewHandler;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -29,8 +30,7 @@ public class Hangman extends Activity {
     private WordDatabase wdb;
     private GameLogic gl;
     private TextView wins, losses;
-
-    private String word = ""; // current word, remove later?
+    
     private Keyboard keyboard;
     
     public static int FAULTS = 0;
@@ -247,7 +247,13 @@ public class Hangman extends Activity {
     private void reset(){
         FAULTS = 0;
         STATE = PLAYING;
+        //finds new words until we run out.
+        try{
         letters = getRandomWord(letters);
+        }catch(NoSuchElementException e){
+        	e.printStackTrace();
+        	Toast.makeText(this, "GAME OVER WORDS OUT", Toast.LENGTH_LONG).show();
+        }
         //ViewHandler.resetKeyboard(this, keyboard.getState());
         keyboard.reset(this);
         ViewHandler.hang(this, hangedMan, FAULTS);
@@ -306,20 +312,16 @@ public class Hangman extends Activity {
     private String[] fetchWords(){
     	return getResources().getStringArray(R.array.words);
     }
-
-    /**
-     *
-     * Legg all test-kode på bunnen
-     */
     
+    //connects to our word-db and gets a random word, updates variables.
     private ArrayList<Letter> getRandomWord(ArrayList<Letter> al) {
         al = new ArrayList<Letter>();
-        String s = wdb.getRandomWord(word);
+        String s = wdb.getRandomWord();
+        //convert to Letter, and add to arraylist that shows up on screen.
         char[] c = s.toCharArray();
         for(int i = 0; i < c.length; i++)
             al.add(new Letter(c[i]+"", false));
 
-        word = s;
         LEFT = ArrayListAdapter.getLettersLeft(al);
         return al;
     }

@@ -2,11 +2,12 @@ package hioa.hangman;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
  * Created by Sondre on 23.08.2014.
- * Database containing multiple words
+ * Class dedicated to grabbing words from related language xml, then managing them.
  */
 public class WordDatabase {
     private ArrayList<String> words = new ArrayList<String>();
@@ -18,10 +19,15 @@ public class WordDatabase {
     }
 
     // returns a random word
-    public String getRandomWord() {
+    public String getRandomWord() throws NoSuchElementException{
         Random r = new Random();
         int i = r.nextInt(words.size());
-        return words.get(i);
+        if(i == 0){
+        	throw new NoSuchElementException("The wordlist is empty");
+        }
+        	String word = words.get(i);
+        	words.remove(i);
+        return word;
     }
 
     // returns a random word, except the input word
