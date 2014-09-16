@@ -7,8 +7,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+
 public class Menu extends Activity {
 
+	public static final String Language = "langKey";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -247,6 +247,10 @@ public class Hangman extends Activity {
     private void reset(){
         FAULTS = 0;
         STATE = PLAYING;
+        
+        String langLoss = getResources().getString(R.string.display_losses);
+        losses.setText(langLoss + " " + gl.updateWinLoss(false));
+        
         //finds new words until we run out.
         try{
         letters = getRandomWord(letters);
