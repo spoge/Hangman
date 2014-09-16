@@ -2,13 +2,10 @@ package hioa.hangman.logic;
 
 import hioa.hangman.R;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 /**
  * Created by NegatioN on 20.08.2014.
@@ -27,9 +24,9 @@ public class ViewHandler {
 		int id = context.getResources().getIdentifier("hangman_" + faults,
 				"drawable", context.getPackageName());
 		if (faults < 10)
-			hangman.setImageResource(id);
+			hangman.setBackgroundResource(id);
 		else
-			hangman.setImageResource(R.drawable.hangman_10);
+			hangman.setBackgroundResource(R.drawable.hangman_10);
 	}
 
 	// eneable all buttons contained in the keyboard-layouts

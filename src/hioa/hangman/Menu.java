@@ -23,7 +23,6 @@ public class Menu extends Activity {
 		setupButton(rules);
 		setupButton(languages);
 		setupButton(exit);
-		
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {

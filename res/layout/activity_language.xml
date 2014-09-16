@@ -18,17 +18,18 @@
         android:padding="5dp" >
         
         <Button
-            android:id="@+id/butonNorwegian"
+            android:id="@+id/buttonNorwegian"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:text="@string/norwegian_language" />
+            android:text="@string/norwegian_language"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/buttonEnglish"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:text="@string/english_language" />
-
+            android:text="@string/english_language"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

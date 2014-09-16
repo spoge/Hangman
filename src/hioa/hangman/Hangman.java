@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -70,6 +71,9 @@ public class Hangman extends Activity {
         
         wins = (TextView) findViewById(R.id.tvWins);
         losses = (TextView) findViewById(R.id.tvLosses);
+        
+        FAULTS = 0;
+    	ViewHandler.hang(this, hangedMan, FAULTS);
     }
     
     protected void onSaveInstanceState (Bundle outState) {
@@ -116,12 +120,12 @@ public class Hangman extends Activity {
     
     public void updateUI() {
     	String langWin = getResources().getString(R.string.display_wins);
-    	wins.setText(langWin + gl.getWins());
+    	wins.setText(langWin + " " + gl.getWins());
     	String langLoss = getResources().getString(R.string.display_losses);
-    	losses.setText(langLoss + gl.getLosses());
+    	losses.setText(langLoss + " " + gl.getLosses());
     	
     	hangedMan = (ImageView) findViewById(R.id.imageView);
-        ViewHandler.hang(this, hangedMan, FAULTS);
+    	ViewHandler.hang(this, hangedMan, FAULTS);
         
         updateWordView(letters);
         
@@ -147,13 +151,21 @@ public class Hangman extends Activity {
         	reset();
             return true;
         }
+        else if(id == R.id.action_exit){
+        	Intent intent = new Intent(Intent.ACTION_MAIN);
+        	intent.addCategory(Intent.CATEGORY_HOME);
+        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        	startActivity(intent);
+        	finish();
+        }
         return super.onOptionsItemSelected(item);
     }
 
     // method executed in onClick of keyboard-buttons
     public void executeButtonClick(View view) {
         if(STATE != 0) {
-            Toast.makeText(this, "The game is over, press \"Reset\"", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, getResources().getString(R.string.reset_message), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.correct_word) + " " + printWord(), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -168,17 +180,17 @@ public class Hangman extends Activity {
         
         if(STATE == WON){
         	win = true;
-        	Toast.makeText(this, "YOU WON!", Toast.LENGTH_SHORT).show();
+        	Toast.makeText(this, getResources().getString(R.string.win_message), Toast.LENGTH_SHORT).show();
         	//gets language-spesific text and updates number of wins
         	String langWin = getResources().getString(R.string.display_wins);
-        	wins.setText(langWin + gl.updateWinLoss(win));
+        	wins.setText(langWin + " " + gl.updateWinLoss(win));
         }
         else if(STATE == LOST){ 
         	win = false;
-        	Toast.makeText(this, "YOU LOST!", Toast.LENGTH_SHORT).show();
+        	Toast.makeText(this, getResources().getString(R.string.lose_message), Toast.LENGTH_SHORT).show();
         	//gets language-spesific text and updates number of losses
         	String langLoss = getResources().getString(R.string.display_losses);
-        	losses.setText(langLoss + gl.updateWinLoss(win));
+        	losses.setText(langLoss + " " + gl.updateWinLoss(win));
         }
     }
 
@@ -283,6 +295,12 @@ public class Hangman extends Activity {
     	keyboard.update(this);
     }
 
+    private String printWord() {
+    	String out = "";
+    	for(Letter l : letters)
+    		out += l.toString();
+    	return out;
+    }
     
     //gets words from language.array.words
     private String[] fetchWords(){

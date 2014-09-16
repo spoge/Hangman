@@ -13,6 +13,6 @@
         android:text="@+string/end_game_button"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="@string/action_settings"/>
+        android:title="@string/end_game_button"/>
 
 </menu>

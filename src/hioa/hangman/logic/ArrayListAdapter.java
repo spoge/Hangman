@@ -1,16 +1,15 @@
 package hioa.hangman.logic;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import hioa.hangman.Letter;
+import hioa.hangman.R;
 
 import java.util.ArrayList;
 
-import hioa.hangman.Letter;
-import hioa.hangman.R;
+import android.content.Context;
+import android.graphics.Color;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Created by NegatioN on 19.08.2014.

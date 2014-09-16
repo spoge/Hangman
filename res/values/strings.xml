@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">Hangman</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hei verden!</string>
+    <string name="action_settings">Innstillinger</string>
     <string name="play_button">Spill</string>
     <string name="rules_button">Regler</string>
     <string name="language_button">Språk</string>
@@ -15,8 +15,9 @@
     <string name="keyboard">ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ</string>
     <string name="norwegian_language">Norsk</string>
     <string name="english_language">Engelsk</string>
-    <string name="display_wins">Wins: </string>
+    <string name="display_wins">Vinn: </string>
     <string name="empty_label"> </string>
-    <string name="display_losses">Loss: </string>
+    <string name="display_losses">Tap: </string>
+    <string name="correct_word">Riktig ord: </string>
     
 </resources>

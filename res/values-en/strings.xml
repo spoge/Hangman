@@ -12,4 +12,7 @@
 	<string name="keyboard">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 	<string name="norwegian_language">Norwegian</string>
 	<string name="english_language">English</string>
+	<string name="current_language">English</string>
+	<string name="reset_message">The game is over, press \"Reset\"</string>
+	    <string name="correct_word">Correct word: </string>
 </resources>

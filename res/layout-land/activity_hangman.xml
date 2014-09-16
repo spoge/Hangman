@@ -17,30 +17,62 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/hangman_0" />
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/parent_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="horizontal" >
-
+        android:orientation="horizontal"
+        android:baselineAligned="false" >
+        
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical" >
 
             <LinearLayout
-                android:id="@+id/top_container"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" >
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llHorizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:textAlignment="center" >
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/keyboard_container"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="bottom|center"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="15dp" >
+
+            <LinearLayout
+                android:id="@+id/top_container"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="vertical" >
 
                 <RelativeLayout
                     android:id="@+id/win_loss_container"
-                    android:layout_width="316dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
                     <TextView
@@ -64,29 +96,6 @@
                         android:textColor="@color/wrong" />
                 </RelativeLayout>
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llHorizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="4"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:textAlignment="center" >
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/keyboard_container"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:layout_weight="20"
-            android:gravity="bottom|center"
-            android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingTop="15dp" >
 
             <LinearLayout
                 android:id="@+id/llTopKeyboard"

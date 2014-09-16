@@ -1,6 +1,5 @@
 package hioa.hangman.logic;
 
-import android.widget.TextView;
 
 public class GameLogic {
 	private int wins, losses;
