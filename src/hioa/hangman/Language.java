@@ -3,7 +3,9 @@ package hioa.hangman;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +15,8 @@ import android.widget.Button;
 
 public class Language extends Activity {
 
+	public final static String LOCALEKEY = "localeKey";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,12 +59,13 @@ public class Language extends Activity {
     	Configuration config = new Configuration();
     	config.locale = locale;
     	getResources().updateConfiguration(config, null);
+    	
+    	//saves our locale-preference for future use.
+    	SharedPreferences prefs = this.getSharedPreferences("hioa.hangman", Context.MODE_PRIVATE);
+    	prefs.edit().putString(LOCALEKEY, lang).apply();
     }
     
-    private void languageClick(View v) {
-    	
-    	
-    	
+    private void languageClick(View v) {  	
         switch(v.getId()){
         case R.id.buttonNorwegian:
         	changeLanguage("no");

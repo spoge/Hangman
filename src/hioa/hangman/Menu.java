@@ -1,16 +1,22 @@
 package hioa.hangman;
 
+import java.util.Locale;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 
 public class Menu extends Activity {
-
-	public static final String Language = "langKey";
+	
+	public final static String LOCALEKEY = "localeKey";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,7 @@ public class Menu extends Activity {
 		setupButton(rules);
 		setupButton(languages);
 		setupButton(exit);
+		getLocale();
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,7 +72,18 @@ public class Menu extends Activity {
         }
         startActivity(i);
     }
-    
+    private void getLocale(){
+    	SharedPreferences prefs = this.getSharedPreferences("hioa.hangman", Context.MODE_PRIVATE);
+    	String languageSetting = prefs.getString(LOCALEKEY, "en");
+    	
+    	Log.d("Menu.getLocale()", languageSetting);
+    	
+    	Locale locale = new Locale(languageSetting);
+    	Locale.setDefault(locale);
+    	Configuration config = new Configuration();
+    	config.locale = locale;
+    	getResources().updateConfiguration(config, null);
+    }
     //sets the onclick-listener for our button.
     private void setupButton(Button button){
         button.setOnClickListener(new View.OnClickListener() {
