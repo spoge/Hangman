@@ -58,8 +58,10 @@ public class Language extends Activity {
     }
     
     private void languageClick(View v) {
+    	
+    	
+    	
         switch(v.getId()){
-        
         case R.id.buttonNorwegian:
         	changeLanguage("no");
         	startActivity(new Intent(this, Language.class));
