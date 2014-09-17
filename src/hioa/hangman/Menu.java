@@ -16,6 +16,7 @@ import android.widget.Button;
 
 public class Menu extends Activity {
 	
+	private Button start, rules, languages, exit;
 	public final static String LOCALEKEY = "localeKey";
 	
 	@Override
@@ -24,10 +25,10 @@ public class Menu extends Activity {
 		setContentView(R.layout.activity_menu);
 		
 		//find all buttons for menu, and add actionlisteners
-		Button start = (Button) findViewById(R.id.buttonStart);
-		Button rules = (Button) findViewById(R.id.buttonRules);
-		Button languages = (Button) findViewById(R.id.buttonLanguages);
-		Button exit = (Button) findViewById(R.id.buttonExit);
+		start = (Button) findViewById(R.id.buttonStart);
+		rules = (Button) findViewById(R.id.buttonRules);
+		languages = (Button) findViewById(R.id.buttonLanguages);
+		exit = (Button) findViewById(R.id.buttonExit);
 		setupButton(start);
 		setupButton(rules);
 		setupButton(languages);
@@ -39,6 +40,15 @@ public class Menu extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu, (android.view.Menu) menu);
 		return true;
+	}
+	
+	@Override
+	public void onRestart(){
+		super.onRestart();
+		start.setText(R.string.play_button);
+		rules.setText(R.string.rules_button);
+		languages.setText(R.string.language_button);
+		exit.setText(R.string.end_game_button);
 	}
 
 	@Override
@@ -84,6 +94,8 @@ public class Menu extends Activity {
     	config.locale = locale;
     	getResources().updateConfiguration(config, null);
     }
+    
+
     //sets the onclick-listener for our button.
     private void setupButton(Button button){
         button.setOnClickListener(new View.OnClickListener() {
