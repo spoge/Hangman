@@ -6,6 +6,7 @@
 	<string name="settings_button">Settings</string>
     <string name="language_button">Languages</string>
     <string name="end_game_button">Exit</string>
+    
 	<string name="win_message">You won!</string>
 	<string name="lose_message">You lost!</string>
 	<string name="correct_message">Correct!</string>
@@ -22,5 +23,5 @@
 	<string name="ok">OK</string>
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
-	
+		
 </resources>

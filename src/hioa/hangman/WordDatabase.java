@@ -20,13 +20,13 @@ public class WordDatabase {
 
     // returns a random word
     public String getRandomWord() throws NoSuchElementException{
+    	if(words.size() == 0){
+    		throw new NoSuchElementException("The wordlist is empty");
+    	}
         Random r = new Random();
         int i = r.nextInt(words.size());
-        if(i == 0){
-        	throw new NoSuchElementException("The wordlist is empty");
-        }
-        	String word = words.get(i);
-        	words.remove(i);
+        String word = words.get(i);
+        words.remove(i);
         return word;
     }
 

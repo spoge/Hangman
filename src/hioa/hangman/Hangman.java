@@ -73,6 +73,8 @@ public class Hangman extends Activity {
         
         wins = (TextView) findViewById(R.id.tvWins);
         losses = (TextView) findViewById(R.id.tvLosses);
+		wins.setText(getResources().getString(R.string.display_wins) + " " + getWins());
+		losses.setText(getResources().getString(R.string.display_losses) + " " + getLosses());
         
         FAULTS = 0;
     	ViewHandler.hang(this, hangedMan, FAULTS);
@@ -81,8 +83,8 @@ public class Hangman extends Activity {
     protected void onSaveInstanceState (Bundle outState) {
     	outState.putInt("faults", FAULTS);
     	outState.putInt("left", LEFT);
-    	outState.putInt("wins", gl.getWins());
-    	outState.putInt("losses", gl.getLosses());
+    	outState.putInt("wins", getWins());
+    	outState.putInt("losses", getLosses());
 
     	char[] c = new char[letters.size()];
     	for(int i = 0; i < c.length; i++) c[i] = letters.get(i).getCharLetter();
@@ -122,9 +124,9 @@ public class Hangman extends Activity {
     
     public void updateUI() {
     	String langWin = getResources().getString(R.string.display_wins);
-    	wins.setText(langWin + " " + gl.getWins());
+    	wins.setText(langWin + " " + getWins());
     	String langLoss = getResources().getString(R.string.display_losses);
-    	losses.setText(langLoss + " " + gl.getLosses());
+    	losses.setText(langLoss + " " + getLosses());
     	
     	hangedMan = (ImageView) findViewById(R.id.imageView);
     	ViewHandler.hang(this, hangedMan, FAULTS);
@@ -136,11 +138,9 @@ public class Hangman extends Activity {
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -150,86 +150,16 @@ public class Hangman extends Activity {
         int id = item.getItemId();
         //gets us a new word for the game, accessible through actionbar.
         if (id == R.id.action_refresh) {
-        	wordDialog(false);
+        	String s = getResources().getString(R.string.wrong_message) + "\n" + getResources().getString(R.string.correct_word) + " " + printWord();
+        	wordDialog(s);
+        	updateWin(false);
         	return true;
         }
         else if(id == R.id.action_exit){
         	exitDialog();
         }
+        //backDialog(); back-button is pressed
         return super.onOptionsItemSelected(item);
-    }
-
-    /*private void backDialog() {
-    	DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-    	    @Override
-    	    public void onClick(DialogInterface dialog, int which) {
-    	        switch (which){
-    	        case DialogInterface.BUTTON_POSITIVE:
-    	            //Yes button clicked
-    	            break;
-
-    	        case DialogInterface.BUTTON_NEGATIVE:
-    	            //No button clicked
-    	            break;
-    	        }
-    	    }
-    	};
-
-    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
-    	    .setNegativeButton("No", dialogClickListener).show();
-    }*/
-    
-    private void exitDialog() {
-    	DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-    	    @Override
-    	    public void onClick(DialogInterface dialog, int which) {
-    	        switch (which){
-    	        case DialogInterface.BUTTON_POSITIVE:
-    	        	Intent intent = new Intent(Intent.ACTION_MAIN);
-    	        	intent.addCategory(Intent.CATEGORY_HOME);
-    	        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    	        	startActivity(intent);
-    	        	finish();
-    	            break;
-    	        case DialogInterface.BUTTON_NEGATIVE:
-    	            //No button clicked
-    	            break;
-    	        }
-    	    }
-    	};
-    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage(getResources().getString(R.string.exit_question)).setPositiveButton(getResources().getString(R.string.yes), dialogClickListener)
-    	    .setNegativeButton(getResources().getString(R.string.no), dialogClickListener).show();
-    }
-    
-    private void gameoverDialog() {
-    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage(getResources().getString(R.string.finished_message) + "\n" + getResources().getString(R.string.display_wins) + " " + gl.getWins() + ", " + getResources().getString(R.string.display_losses) + " " + gl.getLosses())
-    	       .setCancelable(false)
-    	       .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-    	           public void onClick(DialogInterface dialog, int id) {
-    	                //do things
-    	           }
-    	       });
-    	AlertDialog alert = builder.create();
-    	alert.show();
-    }
-    
-    private void wordDialog(final boolean win) {
-    	String s = "";
-    	if(win) s = getResources().getString(R.string.correct_message);
-    	else s = getResources().getString(R.string.wrong_message) + "\n" + getResources().getString(R.string.correct_word) + " " + printWord();
-    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage(s)
-    	       .setCancelable(false)
-    	       .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-    	           public void onClick(DialogInterface dialog, int id) {
-    	                reset(win);
-    	           }
-    	       });
-    	AlertDialog alert = builder.create();
-    	alert.show();
     }
     
     // method executed in onClick of keyboard-buttons
@@ -247,8 +177,16 @@ public class Hangman extends Activity {
         
         STATE = checkState();
         
-        if(STATE == WON) wordDialog(true);
-        else if(STATE == LOST) wordDialog(false);
+        if(STATE == WON) {
+        	String s = getResources().getString(R.string.correct_message);
+        	wordDialog(s);
+        	updateWin(true);
+        }
+        else if(STATE == LOST) {
+        	String s = getResources().getString(R.string.wrong_message) + "\n" + getResources().getString(R.string.correct_word) + " " + printWord();
+        	wordDialog(s);
+        	updateWin(false);
+        }
     }
 
     // checks the game-state (win/lose)
@@ -300,20 +238,17 @@ public class Hangman extends Activity {
         return found;
     }
 
-    //resets the screen after a game has been completed by the user, or reset-button has been pressed
-    private void reset(boolean win){
+	public void resetGame() {
+		wdb = new WordDatabase(fetchWords());
+		gl = new GameLogic(0, 0);
+		wins.setText(getResources().getString(R.string.display_wins) + " " + getWins());
+		losses.setText(getResources().getString(R.string.display_losses) + " " + getLosses());
+		reset();
+	}
+    
+	public void reset() {
         FAULTS = 0;
         STATE = PLAYING;
-        
-        String winloss;
-        if(win){
-        	winloss = getResources().getString(R.string.display_wins);
-        	wins.setText(winloss + " " + gl.updateWinLoss(win));
-        }
-        else{
-        	winloss = getResources().getString(R.string.display_losses);
-        	losses.setText(winloss + " " + gl.updateWinLoss(win));
-        }
         
         //finds new words until we run out.
         try{
@@ -327,8 +262,34 @@ public class Hangman extends Activity {
         keyboard.reset(this);
         ViewHandler.hang(this, hangedMan, FAULTS);
         updateWordView(letters);
+	}
+	
+    //resets the screen after a game has been completed by the user, or reset-button has been pressed
+    public void reset(boolean win){
+        updateWin(win);
+        reset();
+    }
+    
+    private void updateWin(boolean win) {
+        String winloss;
+        if(win){
+        	winloss = getResources().getString(R.string.display_wins);
+        	wins.setText(winloss + " " + gl.updateWinLoss(win));
+        }
+        else{
+        	winloss = getResources().getString(R.string.display_losses);
+        	losses.setText(winloss + " " + gl.updateWinLoss(win));
+        }
     }
 
+    public int getLosses() {
+    	return gl.getLosses();
+    }
+    
+    public int getWins() {
+    	return gl.getWins();
+    }
+    
     // dynamically generates our keyboard based on language/input
     @SuppressLint("InflateParams") 
     private void buttonGenerator(){
@@ -370,7 +331,7 @@ public class Hangman extends Activity {
     	keyboard.update(this);
     }
 
-    private String printWord() {
+    String printWord() {
     	String out = "";
     	for(Letter l : letters)
     		out += l.toString();
@@ -395,5 +356,69 @@ public class Hangman extends Activity {
         return al;
     }
 
-
+    
+    public void exitDialog() {
+    	DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    	    @Override
+    	    public void onClick(DialogInterface dialog, int which) {
+    	        switch (which){
+    	        case DialogInterface.BUTTON_POSITIVE:
+    	        	Intent intent = new Intent(Intent.ACTION_MAIN);
+    	        	intent.addCategory(Intent.CATEGORY_HOME);
+    	        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    	        	startActivity(intent);
+    	        	finish();
+    	            break;
+    	        case DialogInterface.BUTTON_NEGATIVE:
+    	            //No button clicked
+    	            break;
+    	        }
+    	    }
+    	};
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage(getResources().getString(R.string.exit_question)).setPositiveButton(getResources().getString(R.string.yes), dialogClickListener)
+    	    .setNegativeButton(getResources().getString(R.string.no), dialogClickListener).show();
+    }
+    
+    public void gameoverDialog() {
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage(getResources().getString(R.string.finished_message) + "\n" + getResources().getString(R.string.display_wins) + " " + getWins() + ", " + getResources().getString(R.string.display_losses) + " " + getLosses())
+    	       .setCancelable(false)
+    	       .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                resetGame();
+    	           }
+    	       });
+    	AlertDialog alert = builder.create();
+    	alert.show();
+    }
+    
+    public void wordDialog(String msg) {
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage(msg)
+    	       .setCancelable(false)
+    	       .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	        	   reset();
+    	           }
+    	       });
+    	AlertDialog alert = builder.create();
+    	alert.show();
+    }
+    
+    private void backDialog() { // for when back-button is pressed
+    	@SuppressWarnings("unused")
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    	    @Override
+    	    public void onClick(DialogInterface dialog, int which) {
+    	        switch (which){
+    	        case DialogInterface.BUTTON_POSITIVE:
+    	            finish();
+    	            break;
+    	        case DialogInterface.BUTTON_NEGATIVE:
+    	            break;
+    	        }
+    	    }
+    	};
+    }
 }

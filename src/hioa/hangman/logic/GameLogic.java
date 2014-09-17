@@ -2,7 +2,7 @@ package hioa.hangman.logic;
 
 
 public class GameLogic {
-	private int wins, losses;
+	private int wins = 0, losses = 0;
 	
 	public GameLogic(int wins, int losses){
 		this.wins = wins;

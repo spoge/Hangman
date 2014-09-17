@@ -6,6 +6,7 @@
     <string name="settings_button">Innstillinger</string>
     <string name="language_button">Språk</string>
     <string name="end_game_button">Avslutt</string>
+    
     <string name="win_message">Du vant!</string>
     <string name="lose_message">Du tapte</string>
    	<string name="correct_message">Riktig!</string>
@@ -14,17 +15,13 @@
     <string name="keyboard">ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ</string>
     <string name="norwegian_language">Norsk</string>
     <string name="english_language">Engelsk</string>
-    <string name="reset_message">Spillet er ferdig, trykk \"Reset\"</string>
+    <string name="finished_message">Spillet er ferdig!"</string>
+    <string name="correct_word">Riktig ord: </string>
     <string name="display_losses">Vinn: </string>
 	<string name="display_wins">Tap: </string>
 	<string name="exit_question">Er du sikker på at du vil avslutte?</string>
 	<string name="ok">OK</string>
 	<string name="yes">Ja</string>
 	<string name="no">Nei</string>
-	
-    <string name="app_name">Hangman</string>
-    <string name="title_activity_menu">Menu</string>
-    <string name="title_activity_language">Language</string>
-    
     
 </resources>

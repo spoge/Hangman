@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_refresh"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="@string/action_settings"/>
+        android:title="@string/settings_button"/>
  	<item
         android:id="@+id/action_exit"
         android:text="@+string/end_game_button"
