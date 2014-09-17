@@ -8,12 +8,19 @@
     <string name="end_game_button">Exit</string>
 	<string name="win_message">You won!</string>
 	<string name="lose_message">You lost!</string>
+	<string name="correct_message">Correct!</string>
+	<string name="wrong_message">Wrong!</string>
 	<string name="score">Score: </string>
 	<string name="keyboard">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 	<string name="norwegian_language">Norwegian</string>
 	<string name="english_language">English</string>
-	<string name="reset_message">The game is over, press \"Reset\"</string>
+	<string name="finished_message">The game is over!</string>
 	<string name="correct_word">Correct word: </string>
 	<string name="display_losses">Loss: </string>
 	<string name="display_wins">Wins: </string>
+	<string name="exit_question">Are you sure you want to exit?</string>
+	<string name="ok">OK</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+	
 </resources>

@@ -9,6 +9,8 @@ import java.util.NoSuchElementException;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -148,22 +150,91 @@ public class Hangman extends Activity {
         int id = item.getItemId();
         //gets us a new word for the game, accessible through actionbar.
         if (id == R.id.action_refresh) {
-        	reset();
-            return true;
+        	wordDialog(false);
+        	return true;
         }
         else if(id == R.id.action_exit){
-        	Intent intent = new Intent(Intent.ACTION_MAIN);
-        	intent.addCategory(Intent.CATEGORY_HOME);
-        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        	startActivity(intent);
-        	finish();
+        	exitDialog();
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /*private void backDialog() {
+    	DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    	    @Override
+    	    public void onClick(DialogInterface dialog, int which) {
+    	        switch (which){
+    	        case DialogInterface.BUTTON_POSITIVE:
+    	            //Yes button clicked
+    	            break;
+
+    	        case DialogInterface.BUTTON_NEGATIVE:
+    	            //No button clicked
+    	            break;
+    	        }
+    	    }
+    	};
+
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+    	    .setNegativeButton("No", dialogClickListener).show();
+    }*/
+    
+    private void exitDialog() {
+    	DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    	    @Override
+    	    public void onClick(DialogInterface dialog, int which) {
+    	        switch (which){
+    	        case DialogInterface.BUTTON_POSITIVE:
+    	        	Intent intent = new Intent(Intent.ACTION_MAIN);
+    	        	intent.addCategory(Intent.CATEGORY_HOME);
+    	        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    	        	startActivity(intent);
+    	        	finish();
+    	            break;
+    	        case DialogInterface.BUTTON_NEGATIVE:
+    	            //No button clicked
+    	            break;
+    	        }
+    	    }
+    	};
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage(getResources().getString(R.string.exit_question)).setPositiveButton(getResources().getString(R.string.yes), dialogClickListener)
+    	    .setNegativeButton(getResources().getString(R.string.no), dialogClickListener).show();
+    }
+    
+    private void gameoverDialog() {
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage(getResources().getString(R.string.finished_message) + "\n" + getResources().getString(R.string.display_wins) + " " + gl.getWins() + ", " + getResources().getString(R.string.display_losses) + " " + gl.getLosses())
+    	       .setCancelable(false)
+    	       .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                //do things
+    	           }
+    	       });
+    	AlertDialog alert = builder.create();
+    	alert.show();
+    }
+    
+    private void wordDialog(final boolean win) {
+    	String s = "";
+    	if(win) s = getResources().getString(R.string.correct_message);
+    	else s = getResources().getString(R.string.wrong_message) + "\n" + getResources().getString(R.string.correct_word) + " " + printWord();
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage(s)
+    	       .setCancelable(false)
+    	       .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                reset(win);
+    	           }
+    	       });
+    	AlertDialog alert = builder.create();
+    	alert.show();
+    }
+    
     // method executed in onClick of keyboard-buttons
     public void executeButtonClick(View view) {
-        if(STATE != 0) {
+        if(STATE != 0) { // never used i think?
             //Toast.makeText(this, getResources().getString(R.string.reset_message), Toast.LENGTH_SHORT).show();
             Toast.makeText(this, getResources().getString(R.string.correct_word) + " " + printWord(), Toast.LENGTH_SHORT).show();
             return;
@@ -176,22 +247,8 @@ public class Hangman extends Activity {
         
         STATE = checkState();
         
-        boolean win;
-        
-        if(STATE == WON){
-        	win = true;
-        	Toast.makeText(this, getResources().getString(R.string.win_message), Toast.LENGTH_SHORT).show();
-        	//gets language-spesific text and updates number of wins
-        	String langWin = getResources().getString(R.string.display_wins);
-        	wins.setText(langWin + " " + gl.updateWinLoss(win));
-        }
-        else if(STATE == LOST){ 
-        	win = false;
-        	Toast.makeText(this, getResources().getString(R.string.lose_message), Toast.LENGTH_SHORT).show();
-        	//gets language-spesific text and updates number of losses
-        	String langLoss = getResources().getString(R.string.display_losses);
-        	losses.setText(langLoss + " " + gl.updateWinLoss(win));
-        }
+        if(STATE == WON) wordDialog(true);
+        else if(STATE == LOST) wordDialog(false);
     }
 
     // checks the game-state (win/lose)
@@ -244,19 +301,27 @@ public class Hangman extends Activity {
     }
 
     //resets the screen after a game has been completed by the user, or reset-button has been pressed
-    private void reset(){
+    private void reset(boolean win){
         FAULTS = 0;
         STATE = PLAYING;
         
-        String langLoss = getResources().getString(R.string.display_losses);
-        losses.setText(langLoss + " " + gl.updateWinLoss(false));
+        String winloss;
+        if(win){
+        	winloss = getResources().getString(R.string.display_wins);
+        	wins.setText(winloss + " " + gl.updateWinLoss(win));
+        }
+        else{
+        	winloss = getResources().getString(R.string.display_losses);
+        	losses.setText(winloss + " " + gl.updateWinLoss(win));
+        }
         
         //finds new words until we run out.
         try{
         letters = getRandomWord(letters);
-        }catch(NoSuchElementException e){
+        }catch(Exception e){
         	e.printStackTrace();
-        	Toast.makeText(this, "GAME OVER WORDS OUT", Toast.LENGTH_LONG).show();
+        	gameoverDialog(); // shows up before it should........
+        	//Toast.makeText(this, "GAME OVER WORDS OUT", Toast.LENGTH_LONG).show();
         }
         //ViewHandler.resetKeyboard(this, keyboard.getState());
         keyboard.reset(this);
