@@ -23,5 +23,6 @@
 	<string name="ok">OK</string>
 	<string name="yes">Ja</string>
 	<string name="no">Nei</string>
-    
+	
+	<string name="rules">Regler for Hangman\n\n1) Gjett på en bokstav\n\n2) Gjett på enda en bokstav\n\n3) Fortsett å gjette til hele ordet er avdekket, eller du har blitt hengt\n\n4) Etter 7 feil, blir du hengt\n\n5) Lykke til!</string>
 </resources>

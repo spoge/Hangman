@@ -77,7 +77,7 @@ public class Menu extends Activity {
             	i = new Intent(getApplicationContext(), Language.class);
             	break;
             default:
-                i = new Intent(getApplicationContext(), Hangman.class);
+                i = new Intent(getApplicationContext(), Rules.class);
                 break;
         }
         startActivity(i);

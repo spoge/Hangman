@@ -35,6 +35,7 @@ public class Hangman extends Activity {
     
     private Keyboard keyboard;
     
+    public static final int LIMIT = 7;
     public static int FAULTS = 0;
     public static int LEFT = -1; // how many letters left til victory
 
@@ -191,7 +192,7 @@ public class Hangman extends Activity {
 
     // checks the game-state (win/lose)
     public int checkState(){
-        if(FAULTS >= 10) return LOST;
+        if(FAULTS >= LIMIT) return LOST;
         if(LEFT == 0) return WON;
         return PLAYING;
     }

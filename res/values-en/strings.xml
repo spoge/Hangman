@@ -24,4 +24,6 @@
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
 		
+	<string name="rules">Rules for Hangman\n\n1) Guess a letter\n\n2) Guess another letter\n\n3) Continue guessing until the whole word is revealed, or you\'ve been hanged\n\n4) After 7 faults, you\'ll be hanged\n\n Good luck!</string>
+	
 </resources>

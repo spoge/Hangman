@@ -1,5 +1,6 @@
 package hioa.hangman.logic;
 
+import hioa.hangman.Hangman;
 import hioa.hangman.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -21,40 +22,12 @@ public class ViewHandler {
 
 	// updates image of hangman according to number of errors commited
 	public static void hang(Context context, ImageView hangman, int faults) {
-		int id = context.getResources().getIdentifier("hangman_" + faults,
-				"drawable", context.getPackageName());
-		if (faults < 10)
-			hangman.setBackgroundResource(id);
+		int id;
+		if (faults < Hangman.LIMIT)
+			id = context.getResources().getIdentifier("hangman_" + faults, "drawable", context.getPackageName());
 		else
-			hangman.setBackgroundResource(R.drawable.hangman_10);
-	}
-
-	// eneable all buttons contained in the keyboard-layouts
-	/*public static void resetKeyboard(Activity activity, int[] keyboard) {
-		Context c = activity.getApplicationContext();
-
-		LinearLayout layout = (LinearLayout) activity.findViewById(R.id.llTopKeyboard);
-		resetLayoutChildViews(layout, c, keyboard, 0);
-		layout = (LinearLayout) activity.findViewById(R.id.llMidKeyboard);
-		resetLayoutChildViews(layout, c, keyboard, 1);
-		layout = (LinearLayout) activity.findViewById(R.id.llmBotKeyboard);
-		resetLayoutChildViews(layout, c, keyboard, 2);
-		layout = (LinearLayout) activity.findViewById(R.id.llBotKeyboard);
-		resetLayoutChildViews(layout, c, keyboard, 3);
-	}
-
-	// enable buttons for one layout
-	private static void resetLayoutChildViews(LinearLayout layout, Context context, int[] keyboard, int multiplier) {
-		int childCount = layout.getChildCount();
+			id = context.getResources().getIdentifier("hangman_" + Hangman.LIMIT, "drawable", context.getPackageName());
 		
-		for (int i = 0; i < childCount; i++) {
-			View v = layout.getChildAt(i);
-			try {
-				Button b = (Button) v;
-				b.setTextColor(context.getResources().getColor(R.color.black));
-			} catch (Exception e) {
-			}
-			v.setEnabled(true);
-		}
-	}*/
+		hangman.setBackgroundResource(id);
+	}
 }

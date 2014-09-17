@@ -22,6 +22,8 @@ public class Language extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_language);
 		
+		setTitle(getResources().getString(R.string.language_button));
+		
 		Button nor = (Button) findViewById(R.id.buttonNorwegian);
 		Button eng = (Button) findViewById(R.id.buttonEnglish);
 		setupButton(nor);
@@ -30,16 +32,12 @@ public class Language extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.language, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_exit) {
 			Intent intent = new Intent(Intent.ACTION_MAIN);
