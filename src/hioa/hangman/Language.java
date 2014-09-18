@@ -27,6 +27,7 @@ public class Language extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		loadLocale();
 		setContentView(R.layout.activity_language);
 		
 		setTitle(getResources().getString(R.string.language_button));
@@ -36,7 +37,7 @@ public class Language extends Activity {
 		setupButton(nor);
 		setupButton(eng);
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.language, menu);
@@ -56,6 +57,17 @@ public class Language extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+    private void loadLocale() {
+    	SharedPreferences prefs = this.getSharedPreferences("hioa.hangman", Context.MODE_PRIVATE);
+    	String languageSetting = prefs.getString("localeKey", "en");
+    	
+    	Locale locale = new Locale(languageSetting);
+    	Locale.setDefault(locale);
+    	Configuration config = new Configuration();
+    	config.locale = locale;
+    	getResources().updateConfiguration(config, null);
+    }
 	
     //starts our new activities. add proper intent to switch-case
     private void changeLanguage(String lang){
