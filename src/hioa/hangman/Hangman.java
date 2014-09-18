@@ -26,11 +26,11 @@ import android.widget.Toast;
 
 public class Hangman extends Activity {
 
-    private ArrayList<Letter> letters;
+    private static ArrayList<Letter> letters;
     private LinearLayout letterHolder;
     private ImageView hangedMan;
-    private WordDatabase wdb;
-    private GameLogic gl;
+    private static WordDatabase wdb;
+    private static GameLogic gl;
     private TextView wins, losses;
     
     private Keyboard keyboard;
@@ -41,28 +41,36 @@ public class Hangman extends Activity {
 
     private final int WON = 1, LOST = -1, PLAYING = 0; // int values represesnting which state the game is in
     private static int STATE = 0; // current state of the game
+    private static boolean firstLoad = true;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangman);
         
-        //creates our database with words from the selected language-option
-        wdb = new WordDatabase(fetchWords());
-        
-        //starts our gamelogic at 0 wins 0 losses, can be modified to store in sharedpreferences
-        gl = new GameLogic(0,0);
-        
+        //a zone of the onCreate which should not be called when the screen is flipped
+        if(firstLoad){
+        	
+        	Log.d("Hangman.firstLoad", "we're in");
+	        //creates our database with words from the selected language-option
+	        wdb = new WordDatabase(fetchWords());
+	        
+	        //starts our gamelogic at 0 wins 0 losses, can be modified to store in sharedpreferences
+	        gl = new GameLogic(0,0);
+	        
+	
+	        //creation of the underlined boxes for the letters on screen
+	        letters = new ArrayList<Letter>();
+	
+	        letters = getRandomWord(letters);
+	        FAULTS = 0;
+	        firstLoad = false;
+        }
         // creating hangman-image
         hangedMan = (ImageView) findViewById(R.id.imageView);
         ViewHandler.hang(this, hangedMan, FAULTS);
-
-        //creation of the underlined boxes for the letters on screen
-        letters = new ArrayList<Letter>();
-
+        
         letterHolder = (LinearLayout) findViewById(R.id.llHorizontal);
-        letters = getRandomWord(letters);
-
         //we refernce this adapter later when we want to make changes to the textviews
         ArrayListAdapter.addViews(this, letters, letterHolder);
         
@@ -77,15 +85,26 @@ public class Hangman extends Activity {
 		wins.setText(getResources().getString(R.string.display_wins) + " " + getWins());
 		losses.setText(getResources().getString(R.string.display_losses) + " " + getLosses());
         
-        FAULTS = 0;
+        
     	ViewHandler.hang(this, hangedMan, FAULTS);
     }
     
-    protected void onSaveInstanceState (Bundle outState) {
+    
+    //if user presses back we want the game to load from scratch next time.
+    @Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		firstLoad = true;
+	}
+
+
+
+	protected void onSaveInstanceState (Bundle outState) {
     	outState.putInt("faults", FAULTS);
     	outState.putInt("left", LEFT);
     	outState.putInt("wins", getWins());
     	outState.putInt("losses", getLosses());
+//    	outState.putBoolean("firstLoad", firstLoad);
 
     	char[] c = new char[letters.size()];
     	for(int i = 0; i < c.length; i++) c[i] = letters.get(i).getCharLetter();
@@ -111,6 +130,8 @@ public class Hangman extends Activity {
         char[] c = savedInstanceState.getCharArray("letters");
         boolean[] visible = savedInstanceState.getBooleanArray("visible");
         int[] keys = savedInstanceState.getIntArray("keyboard");
+        
+//        firstLoad = savedInstanceState.getBoolean("firstLoad");
         
         gl = new GameLogic(w, l);
 
@@ -150,14 +171,18 @@ public class Hangman extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //gets us a new word for the game, accessible through actionbar.
-        if (id == R.id.action_refresh) {
+        switch(id){
+        case R.id.action_refresh:
         	String s = getResources().getString(R.string.wrong_message) + "\n" + getResources().getString(R.string.correct_word) + " " + printWord();
         	wordDialog(s);
         	updateWin(false);
-        	return true;
-        }
-        else if(id == R.id.action_exit){
+        	break;
+        case R.id.action_exit:
         	exitDialog();
+        	break;
+        case android.R.id.home:
+        	firstLoad = true;
+        	break;
         }
         //backDialog(); back-button is pressed
         return super.onOptionsItemSelected(item);
@@ -295,7 +320,7 @@ public class Hangman extends Activity {
     @SuppressLint("InflateParams") 
     private void buttonGenerator(){
         String keyboardString = getResources().getString(R.string.keyboard);
-        //when buttoncount passes each 10, we switch to another layout
+        //when buttoncount passes each 8, we switch to another layout
         //this is to avoid having to implement a heavy method of analyzing the size of the screen
         int buttonCount = 0;
         int rowlength = 8;
@@ -332,6 +357,7 @@ public class Hangman extends Activity {
     	keyboard.update(this);
     }
 
+    //used to display the current word in dialogs
     String printWord() {
     	String out = "";
     	for(Letter l : letters)
