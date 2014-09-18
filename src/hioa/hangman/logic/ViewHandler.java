@@ -9,7 +9,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 /**
- * Created by NegatioN on 20.08.2014.
+ * The viewhandler generates button-views and displays the correct image
+ * according to the user-input.
  */
 public class ViewHandler {
 

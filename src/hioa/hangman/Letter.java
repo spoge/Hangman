@@ -6,7 +6,7 @@ package hioa.hangman;
  * A class representing a single letter in a word which gives us the ability to check if
  * it should be made visible to the user.
  * 
- * Also used by the keyboard to keep track of which buttons that have been clicked
+ * Letter-state is used by the keyboard to keep track of which buttons that have been clicked
  */
 public class Letter {
     private String letter;

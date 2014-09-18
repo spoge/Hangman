@@ -1,5 +1,10 @@
 package hioa.hangman.logic;
 
+/**
+ * 
+ * Object that keeps track of wins/losses for each game.
+ *
+ */
 
 public class GameLogic {
 	private int wins = 0, losses = 0;

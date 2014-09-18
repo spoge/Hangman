@@ -24,6 +24,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+/**
+ * 
+ * @author Joakim
+ *This is the main game-class.
+ * it's a sort of connection-point for everything else in the system, and also contains various methods for UI
+ * and handling of user-actions, in addition to some game-logic.
+ */
+
 public class Hangman extends Activity {
 
     private static ArrayList<Letter> letters;

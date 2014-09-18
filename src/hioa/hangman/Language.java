@@ -13,6 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+
+/**
+ * 
+ * Lets the user choose language-setting, which is then stored for further use
+ * next time the application starts.
+ *
+ */
 public class Language extends Activity {
 
 	public final static String LOCALEKEY = "localeKey";

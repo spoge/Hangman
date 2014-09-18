@@ -13,6 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * 
+ * The class is responsible for displaying a menu the user can
+ * interact with, and navigating the application.
+ *
+ */
 
 public class Menu extends Activity {
 	
