@@ -5,12 +5,11 @@ import hioa.hangman.logic.GameLogic;
 import hioa.hangman.logic.ViewHandler;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +21,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 /**
@@ -94,7 +92,6 @@ public class Hangman extends Activity {
 		wins.setText(getResources().getString(R.string.display_wins) + " " + gl.getWins());
 		losses.setText(getResources().getString(R.string.display_losses) + " " + gl.getLosses());
         
-        
     	ViewHandler.hang(this, hangedMan, FAULTS);
     }
     
@@ -103,17 +100,13 @@ public class Hangman extends Activity {
     @Override
 	public void onBackPressed() {
 		backDialog();
-		
 	}
-
-
 
 	protected void onSaveInstanceState (Bundle outState) {
     	outState.putInt("faults", FAULTS);
     	outState.putInt("left", LEFT);
     	outState.putInt("wins", gl.getWins());
     	outState.putInt("losses", gl.getLosses());
-//    	outState.putBoolean("firstLoad", firstLoad);
 
     	char[] c = new char[letters.size()];
     	for(int i = 0; i < c.length; i++) c[i] = letters.get(i).getCharLetter();
@@ -140,14 +133,11 @@ public class Hangman extends Activity {
         boolean[] visible = savedInstanceState.getBooleanArray("visible");
         int[] keys = savedInstanceState.getIntArray("keyboard");
         
-//        firstLoad = savedInstanceState.getBoolean("firstLoad");
-        
         gl = new GameLogic(w, l);
 
         letters = new ArrayList<GameLetter>();
         for(int i = 0; i < c.length; i++) letters.add(new GameLetter(c[i]+"", visible[i]));
         
-        //keyboard = new Keyboard(getResources().getString(R.string.keyboard));
         keyboard.update(keys);
         
         updateUI();
@@ -175,12 +165,7 @@ public class Hangman extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        //gets us a new word for the game, accessible through actionbar.
-        switch(id){
+        switch(item.getItemId()){
         case R.id.action_refresh:
         	String s = getResources().getString(R.string.wrong_message) + "\n" + getResources().getString(R.string.correct_word) + " " + printWord();
         	wordDialog(s);
@@ -193,17 +178,12 @@ public class Hangman extends Activity {
         	backDialog();
         	return true;
         }
-        //backDialog(); back-button is pressed
         return super.onOptionsItemSelected(item);
     }
     
     // method executed in onClick of keyboard-buttons
     public void executeButtonClick(View view) {
-        if(STATE != 0) { // never used i think?
-            //Toast.makeText(this, getResources().getString(R.string.reset_message), Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, getResources().getString(R.string.correct_word) + " " + printWord(), Toast.LENGTH_SHORT).show();
-            return;
-        }
+        if(STATE != 0) return;
 
         Button button = (Button) view;
         view.setEnabled(false);
@@ -223,7 +203,7 @@ public class Hangman extends Activity {
         	updateWin(false);
         }
     }
-
+    
     // checks the game-state (win/lose)
     public int checkState(){
         if(FAULTS >= LIMIT) return LOST;
@@ -290,10 +270,8 @@ public class Hangman extends Activity {
         letters = getRandomWord(letters);
         }catch(Exception e){
         	e.printStackTrace();
-        	gameoverDialog(); // shows up before it should........
-        	//Toast.makeText(this, "GAME OVER WORDS OUT", Toast.LENGTH_LONG).show();
+        	gameoverDialog();
         }
-        //ViewHandler.resetKeyboard(this, keyboard.getState());
         keyboard.reset(this);
         ViewHandler.hang(this, hangedMan, FAULTS);
         updateWordView(letters);
@@ -385,11 +363,22 @@ public class Hangman extends Activity {
         return al;
     }
 
+    private void backDialog() {
+    	OnClickListener dialoginterface = new DialogInterface.OnClickListener() {
+    	    @Override
+    	    public void onClick(DialogInterface dialog, int which) {
+    	        switch (which){
+    	        case DialogInterface.BUTTON_POSITIVE:
+    	        	firstLoad = true;
+    	            finish();
+    	        }
+    	    }
+    	};
+    	HangmanDialog.backDialog(this, dialoginterface);
+    }
     
-    //From here on out, the various dialogs that we use in the class is located, they should be self-explanatory.
-    
-    public void exitDialog() {
-    	DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    private void exitDialog() {
+    	OnClickListener dialoginterface = new DialogInterface.OnClickListener() {
     	    @Override
     	    public void onClick(DialogInterface dialog, int which) {
     	        switch (which){
@@ -399,61 +388,30 @@ public class Hangman extends Activity {
     	        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     	        	startActivity(intent);
     	        	finish();
-    	            break;
-    	        case DialogInterface.BUTTON_NEGATIVE:
-    	            //No button clicked
-    	            break;
     	        }
     	    }
     	};
-    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage(getResources().getString(R.string.exit_question)).setPositiveButton(getResources().getString(R.string.yes), dialogClickListener)
-    	    .setNegativeButton(getResources().getString(R.string.no), dialogClickListener).show();
-    }
-    
-    public void gameoverDialog() {
-    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage(getResources().getString(R.string.finished_message) + "\n" + getResources().getString(R.string.display_wins) + " " + gl.getWins() + ", " + getResources().getString(R.string.display_losses) + " " + gl.getLosses())
-    	       .setCancelable(false)
-    	       .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-    	           public void onClick(DialogInterface dialog, int id) {
-    	                resetGame();
-    	           }
-    	       });
-    	AlertDialog alert = builder.create();
-    	alert.show();
-    }
-    
-    public void wordDialog(String msg) {
-    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage(msg)
-    	       .setCancelable(false)
-    	       .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-    	           public void onClick(DialogInterface dialog, int id) {
-    	        	   reset();
-    	           }
-    	       });
-    	AlertDialog alert = builder.create();
-    	alert.show();
-    }
-    
-    private void backDialog() { // for when back-button is pressed
+    	HangmanDialog.exitDialog(this, dialoginterface);
     	
-		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-    	    @Override
-    	    public void onClick(DialogInterface dialog, int which) {
-    	        switch (which){
-    	        case DialogInterface.BUTTON_POSITIVE:
-    	        	firstLoad = true;
-    	            finish();
-    	            break;
-    	        case DialogInterface.BUTTON_NEGATIVE:
-    	            break;
-    	        }
-    	    }
-    	};
-    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage(getResources().getString(R.string.back_question)).setPositiveButton(getResources().getString(R.string.yes), dialogClickListener)
-    	    .setNegativeButton(getResources().getString(R.string.no), dialogClickListener).show();
+    }
+    
+    private void wordDialog(String s) {
+    	OnClickListener dialoginterface = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				reset();
+			}
+		};
+		HangmanDialog.wordDialog(this, dialoginterface, s);
+    }
+    
+    private void gameoverDialog() {
+    	OnClickListener dialoginterface = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				resetGame();
+			}
+		};
+    	HangmanDialog.gameoverDialog(this, dialoginterface, gl.getWins(), gl.getLosses());
     }
 }
