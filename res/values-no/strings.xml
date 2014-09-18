@@ -20,6 +20,7 @@
     <string name="display_losses">Vinn: </string>
 	<string name="display_wins">Tap: </string>
 	<string name="exit_question">Er du sikker på at du vil avslutte?</string>
+	<string name="back_question">Er du sikker på at du vil lukke det kjørende spillet?</string>
 	<string name="ok">OK</string>
 	<string name="yes">Ja</string>
 	<string name="no">Nei</string>

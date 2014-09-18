@@ -20,6 +20,7 @@
 	<string name="display_losses">Loss: </string>
 	<string name="display_wins">Wins: </string>
 	<string name="exit_question">Are you sure you want to exit?</string>
+	<string name="back_question">Are you sure you want to close the current game?</string>
 	<string name="ok">OK</string>
 	<string name="yes">Yes</string>
 	<string name="no">No</string>

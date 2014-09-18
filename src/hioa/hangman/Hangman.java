@@ -93,8 +93,8 @@ public class Hangman extends Activity {
     //if user presses back we want the game to load from scratch next time.
     @Override
 	public void onBackPressed() {
-		super.onBackPressed();
-		firstLoad = true;
+		backDialog();
+		
 	}
 
 
@@ -181,8 +181,8 @@ public class Hangman extends Activity {
         	exitDialog();
         	break;
         case android.R.id.home:
-        	firstLoad = true;
-        	break;
+        	backDialog();
+        	return true;
         }
         //backDialog(); back-button is pressed
         return super.onOptionsItemSelected(item);
@@ -434,12 +434,13 @@ public class Hangman extends Activity {
     }
     
     private void backDialog() { // for when back-button is pressed
-    	@SuppressWarnings("unused")
+    	
 		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
     	    @Override
     	    public void onClick(DialogInterface dialog, int which) {
     	        switch (which){
     	        case DialogInterface.BUTTON_POSITIVE:
+    	        	firstLoad = true;
     	            finish();
     	            break;
     	        case DialogInterface.BUTTON_NEGATIVE:
@@ -447,5 +448,8 @@ public class Hangman extends Activity {
     	        }
     	    }
     	};
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage(getResources().getString(R.string.back_question)).setPositiveButton(getResources().getString(R.string.yes), dialogClickListener)
+    	    .setNegativeButton(getResources().getString(R.string.no), dialogClickListener).show();
     }
 }
