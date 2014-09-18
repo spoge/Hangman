@@ -28,6 +28,7 @@ public class Menu extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getLocale();
 		setContentView(R.layout.activity_menu);
 		
 		//find all buttons for menu, and add actionlisteners
@@ -39,7 +40,6 @@ public class Menu extends Activity {
 		setupButton(rules);
 		setupButton(languages);
 		setupButton(exit);
-		getLocale();
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -48,6 +48,7 @@ public class Menu extends Activity {
 		return true;
 	}
 	
+	// renames to correct buttonText on back-button click
 	@Override
 	public void onRestart(){
 		super.onRestart();
@@ -88,6 +89,7 @@ public class Menu extends Activity {
         }
         startActivity(i);
     }
+    
     private void getLocale(){
     	SharedPreferences prefs = this.getSharedPreferences("hioa.hangman", Context.MODE_PRIVATE);
     	String languageSetting = prefs.getString(LOCALEKEY, "en");
@@ -101,7 +103,6 @@ public class Menu extends Activity {
     	getResources().updateConfiguration(config, null);
     }
     
-
     //sets the onclick-listener for our button.
     private void setupButton(Button button){
         button.setOnClickListener(new View.OnClickListener() {

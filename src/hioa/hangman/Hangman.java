@@ -61,6 +61,8 @@ public class Hangman extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangman);
         
+        loadLocale();
+        
         //a zone of the onCreate which should not be called when the screen is flipped
         if(firstLoad){
         	
@@ -106,6 +108,16 @@ public class Hangman extends Activity {
     	ViewHandler.hang(this, hangedMan, FAULTS);
     }
     
+    private void loadLocale() {
+    	SharedPreferences prefs = this.getSharedPreferences("hioa.hangman", Context.MODE_PRIVATE);
+    	String languageSetting = prefs.getString("localeKey", "en");
+    	
+    	Locale locale = new Locale(languageSetting);
+    	Locale.setDefault(locale);
+    	Configuration config = new Configuration();
+    	config.locale = locale;
+    	getResources().updateConfiguration(config, null);
+    }
     
     //if user presses back we want the game to load from scratch next time.
     @Override
@@ -149,18 +161,7 @@ public class Hangman extends Activity {
         letters = new ArrayList<GameLetter>();
         for(int i = 0; i < c.length; i++) letters.add(new GameLetter(c[i]+"", visible[i]));
         
-        keyboard.update(keys);
-        
-        //load locale
-    	SharedPreferences prefs = this.getSharedPreferences("hioa.hangman", Context.MODE_PRIVATE);
-    	String languageSetting = prefs.getString("localeKey", "en");
-    	
-    	Locale locale = new Locale(languageSetting);
-    	Locale.setDefault(locale);
-    	Configuration config = new Configuration();
-    	config.locale = locale;
-    	getResources().updateConfiguration(config, null);
-        
+    	keyboard.update(keys);
         updateUI();
     }
     
