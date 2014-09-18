@@ -64,7 +64,6 @@ public class Hangman extends Activity {
 	        
 	        //starts our gamelogic at 0 wins 0 losses, can be modified to store in sharedpreferences
 	        gl = new GameLogic(0,0);
-	        
 	
 	        //creation of the underlined boxes for the letters on screen
 	        letters = new ArrayList<GameLetter>();
@@ -363,7 +362,15 @@ public class Hangman extends Activity {
         return al;
     }
 
+    // asks whether user want to leave an unfinished game
     private void backDialog() {
+    	// skip dialog if no stats are recorded and no game have begun
+    	if(gl.getWins() == 0 && gl.getLosses() == 0 && FAULTS == 0 && LEFT == letters.size()) {
+    		firstLoad = true;
+    		finish();
+    		return;
+    	}
+    	
     	OnClickListener dialoginterface = new DialogInterface.OnClickListener() {
     	    @Override
     	    public void onClick(DialogInterface dialog, int which) {
@@ -392,7 +399,6 @@ public class Hangman extends Activity {
     	    }
     	};
     	HangmanDialog.exitDialog(this, dialoginterface);
-    	
     }
     
     private void wordDialog(String s) {

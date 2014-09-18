@@ -1,7 +1,6 @@
 package hioa.hangman.logic;
 
 import hioa.hangman.GameLetter;
-import hioa.hangman.Letter;
 import hioa.hangman.R;
 
 import java.util.ArrayList;
