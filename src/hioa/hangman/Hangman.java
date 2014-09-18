@@ -82,8 +82,8 @@ public class Hangman extends Activity {
         
         wins = (TextView) findViewById(R.id.tvWins);
         losses = (TextView) findViewById(R.id.tvLosses);
-		wins.setText(getResources().getString(R.string.display_wins) + " " + getWins());
-		losses.setText(getResources().getString(R.string.display_losses) + " " + getLosses());
+		wins.setText(getResources().getString(R.string.display_wins) + " " + gl.getWins());
+		losses.setText(getResources().getString(R.string.display_losses) + " " + gl.getLosses());
         
         
     	ViewHandler.hang(this, hangedMan, FAULTS);
@@ -102,8 +102,8 @@ public class Hangman extends Activity {
 	protected void onSaveInstanceState (Bundle outState) {
     	outState.putInt("faults", FAULTS);
     	outState.putInt("left", LEFT);
-    	outState.putInt("wins", getWins());
-    	outState.putInt("losses", getLosses());
+    	outState.putInt("wins", gl.getWins());
+    	outState.putInt("losses", gl.getLosses());
 //    	outState.putBoolean("firstLoad", firstLoad);
 
     	char[] c = new char[letters.size()];
@@ -146,9 +146,9 @@ public class Hangman extends Activity {
     
     public void updateUI() {
     	String langWin = getResources().getString(R.string.display_wins);
-    	wins.setText(langWin + " " + getWins());
+    	wins.setText(langWin + " " + gl.getWins());
     	String langLoss = getResources().getString(R.string.display_losses);
-    	losses.setText(langLoss + " " + getLosses());
+    	losses.setText(langLoss + " " + gl.getLosses());
     	
     	hangedMan = (ImageView) findViewById(R.id.imageView);
     	ViewHandler.hang(this, hangedMan, FAULTS);
@@ -267,8 +267,8 @@ public class Hangman extends Activity {
 	public void resetGame() {
 		wdb = new WordDatabase(fetchWords());
 		gl = new GameLogic(0, 0);
-		wins.setText(getResources().getString(R.string.display_wins) + " " + getWins());
-		losses.setText(getResources().getString(R.string.display_losses) + " " + getLosses());
+		wins.setText(getResources().getString(R.string.display_wins) + " " + gl.getWins());
+		losses.setText(getResources().getString(R.string.display_losses) + " " + gl.getLosses());
 		reset();
 	}
     
@@ -308,13 +308,6 @@ public class Hangman extends Activity {
         }
     }
 
-    public int getLosses() {
-    	return gl.getLosses();
-    }
-    
-    public int getWins() {
-    	return gl.getWins();
-    }
     
     // dynamically generates our keyboard based on language/input
     @SuppressLint("InflateParams") 
@@ -384,6 +377,8 @@ public class Hangman extends Activity {
     }
 
     
+    //From here on out, the various dialogs that we use in the class is located, they should be self-explanatory.
+    
     public void exitDialog() {
     	DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
     	    @Override
@@ -409,7 +404,7 @@ public class Hangman extends Activity {
     
     public void gameoverDialog() {
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage(getResources().getString(R.string.finished_message) + "\n" + getResources().getString(R.string.display_wins) + " " + getWins() + ", " + getResources().getString(R.string.display_losses) + " " + getLosses())
+    	builder.setMessage(getResources().getString(R.string.finished_message) + "\n" + getResources().getString(R.string.display_wins) + " " + gl.getWins() + ", " + getResources().getString(R.string.display_losses) + " " + gl.getLosses())
     	       .setCancelable(false)
     	       .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
     	           public void onClick(DialogInterface dialog, int id) {
