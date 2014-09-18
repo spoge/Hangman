@@ -17,8 +17,8 @@
     <string name="english_language">Engelsk</string>
     <string name="finished_message">Spillet er ferdig!"</string>
     <string name="correct_word">Riktig ord: </string>
-    <string name="display_losses">Vinn: </string>
-	<string name="display_wins">Tap: </string>
+    <string name="display_losses">Tap: </string>
+	<string name="display_wins">Vinn: </string>
 	<string name="exit_question">Er du sikker på at du vil avslutte?</string>
 	<string name="back_question">Er du sikker på at du vil lukke det kjørende spillet?</string>
 	<string name="ok">OK</string>
