@@ -5,11 +5,15 @@ import hioa.hangman.logic.GameLogic;
 import hioa.hangman.logic.ViewHandler;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
+import android.content.res.Configuration;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -146,6 +150,16 @@ public class Hangman extends Activity {
         for(int i = 0; i < c.length; i++) letters.add(new GameLetter(c[i]+"", visible[i]));
         
         keyboard.update(keys);
+        
+        //load locale
+    	SharedPreferences prefs = this.getSharedPreferences("hioa.hangman", Context.MODE_PRIVATE);
+    	String languageSetting = prefs.getString("localeKey", "en");
+    	
+    	Locale locale = new Locale(languageSetting);
+    	Locale.setDefault(locale);
+    	Configuration config = new Configuration();
+    	config.locale = locale;
+    	getResources().updateConfiguration(config, null);
         
         updateUI();
     }
