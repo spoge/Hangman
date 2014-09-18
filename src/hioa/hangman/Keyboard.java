@@ -1,5 +1,15 @@
 package hioa.hangman;
 
+/**
+ * Created by Sondre on 15.09.2014.
+ * Class represents the virtual keyboard on the Hangman-screen,
+ * and is used when state of the keyboard.
+ * 
+ * list<Letter> represents the state of each keyboard-button.
+ * list<Button> references the actual keyboard-buttons, and is used
+ * when we change the state of the actual buttons.
+ */
+
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -15,6 +25,7 @@ public class Keyboard {
 			keyboard.add(new Letter(c[i] + "", 0));
 	}
 
+	// updates state of a keyboard-button, for instance if change text-color
 	public void update(String letter, int state) {
 		for (Letter l : keyboard) {
 			if (l.toString().equals(letter))
@@ -22,6 +33,7 @@ public class Keyboard {
 		}
 	}
 
+	// updates the state of each keyboard-letter, based on input
 	public void update(int[] keys) {
 		int i = 0;
 		for (Letter l : keyboard) {
@@ -30,6 +42,7 @@ public class Keyboard {
 		}
 	}
 	
+	// return state of keyboard-buttons
 	public int[] getState(){
 		int[] keystate = new int[keyboard.size()];
 		for(int i = 0; i < keystate.length; i++){
@@ -38,6 +51,7 @@ public class Keyboard {
 		return keystate;
 	}
 	
+	// updates and changes state on the whole keyboard
 	public void update(Context context) {
 		for(int i = 0; i < keyboard.size(); i++) {
 			int state = keyboard.get(i).getState();
@@ -57,6 +71,7 @@ public class Keyboard {
 		}
 	}
 	
+	// resets keyboard to default state
 	public void reset(Context context) {
 		for(int i = 0; i < keyboard.size(); i++) {
 			keyboard.get(i).setState(0);
