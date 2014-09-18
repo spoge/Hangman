@@ -1,5 +1,6 @@
 package hioa.hangman.logic;
 
+import hioa.hangman.GameLetter;
 import hioa.hangman.Letter;
 import hioa.hangman.R;
 
@@ -20,14 +21,14 @@ import android.widget.TextView;
 
 public class ArrayListAdapter {
 
-    public static ArrayAdapter<Letter> addViews(Context c, ArrayList<Letter> letters, LinearLayout letterHolder){
-        ArrayAdapter<Letter> adapter = new ArrayAdapter<Letter>(c, R.layout.tv_layout, letters);
+    public static ArrayAdapter<GameLetter> addViews(Context c, ArrayList<GameLetter> letters, LinearLayout letterHolder){
+        ArrayAdapter<GameLetter> adapter = new ArrayAdapter<GameLetter>(c, R.layout.tv_layout, letters);
         final int adapterCount = adapter.getCount();
 
         // makes every single textview here
         for(int i = 0; i < adapterCount;i++){
             TextView textView = (TextView) adapter.getView(i, null, null);
-            Letter letter = letters.get(i);
+            GameLetter letter = letters.get(i);
             
             //if the character is a whitepace, automatically set to visible and removes underline
             if(letter.toString().matches(" ")){
@@ -50,9 +51,9 @@ public class ArrayListAdapter {
     }
 
     // returns letters left to be guessed
-    public static int getLettersLeft(ArrayList<Letter> letters) {
+    public static int getLettersLeft(ArrayList<GameLetter> letters) {
         int count = 0;
-        for(Letter letter : letters)
+        for(GameLetter letter : letters)
             if(!letter.isVisible()) count++;
         return count;
     }

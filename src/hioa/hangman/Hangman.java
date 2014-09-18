@@ -35,7 +35,7 @@ import android.widget.Toast;
 
 public class Hangman extends Activity {
 
-    private static ArrayList<Letter> letters;
+    private static ArrayList<GameLetter> letters;
     private LinearLayout letterHolder;
     private ImageView hangedMan;
     private static WordDatabase wdb;
@@ -69,7 +69,7 @@ public class Hangman extends Activity {
 	        
 	
 	        //creation of the underlined boxes for the letters on screen
-	        letters = new ArrayList<Letter>();
+	        letters = new ArrayList<GameLetter>();
 	
 	        letters = getRandomWord(letters);
 	        FAULTS = 0;
@@ -144,8 +144,8 @@ public class Hangman extends Activity {
         
         gl = new GameLogic(w, l);
 
-        letters = new ArrayList<Letter>();
-        for(int i = 0; i < c.length; i++) letters.add(new Letter(c[i]+"", visible[i]));
+        letters = new ArrayList<GameLetter>();
+        for(int i = 0; i < c.length; i++) letters.add(new GameLetter(c[i]+"", visible[i]));
         
         //keyboard = new Keyboard(getResources().getString(R.string.keyboard));
         keyboard.update(keys);
@@ -252,7 +252,7 @@ public class Hangman extends Activity {
     }
 
     //updates all our guessed letters on screen
-    private void updateWordView(ArrayList<Letter> letters){
+    private void updateWordView(ArrayList<GameLetter> letters){
         //after this we remove and reload all guessed letter-views
         letterHolder = (LinearLayout) findViewById(R.id.llHorizontal);
         if(letterHolder.getChildCount() > 0)
@@ -264,7 +264,7 @@ public class Hangman extends Activity {
     // was our guessed letter part of the word?
     private boolean checkInputLetter(String inputLetter){
         boolean found = false;
-        for(Letter letter: letters){
+        for(GameLetter letter: letters){
             if(letter.toString().equalsIgnoreCase(inputLetter)){
                 letter.setVisible(true);
                 found = true;
@@ -373,13 +373,13 @@ public class Hangman extends Activity {
     }
     
     //connects to our word-db and gets a random word, updates variables.
-    private ArrayList<Letter> getRandomWord(ArrayList<Letter> al) {
-        al = new ArrayList<Letter>();
+    private ArrayList<GameLetter> getRandomWord(ArrayList<GameLetter> al) {
+        al = new ArrayList<GameLetter>();
         String s = wdb.getRandomWord();
         //convert to Letter, and add to arraylist that shows up on screen.
         char[] c = s.toCharArray();
         for(int i = 0; i < c.length; i++)
-            al.add(new Letter(c[i]+"", false));
+            al.add(new GameLetter(c[i]+"", false));
 
         LEFT = ArrayListAdapter.getLettersLeft(al);
         return al;

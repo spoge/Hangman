@@ -16,18 +16,18 @@ import android.content.Context;
 import android.widget.Button;
 
 public class Keyboard {
-	private ArrayList<Letter> keyboard = new ArrayList<Letter>();
+	private ArrayList<KeyboardLetter> keyboard = new ArrayList<KeyboardLetter>();
 	private ArrayList<Button> buttons = new ArrayList<Button>();
 	
 	public Keyboard(String keys) {
 		char[] c = keys.toCharArray();
 		for (int i = 0; i < c.length; i++)
-			keyboard.add(new Letter(c[i] + "", 0));
+			keyboard.add(new KeyboardLetter(c[i] + "", 0));
 	}
 
 	// updates state of a keyboard-button, for instance if change text-color
 	public void update(String letter, int state) {
-		for (Letter l : keyboard) {
+		for (KeyboardLetter l : keyboard) {
 			if (l.toString().equals(letter))
 				l.setState(state);
 		}
@@ -36,7 +36,7 @@ public class Keyboard {
 	// updates the state of each keyboard-letter, based on input
 	public void update(int[] keys) {
 		int i = 0;
-		for (Letter l : keyboard) {
+		for (KeyboardLetter l : keyboard) {
 			l.setState(keys[i]);
 			i++;
 		}
