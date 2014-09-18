@@ -40,7 +40,7 @@ public class Hangman extends Activity {
     private static WordDatabase wdb;
     private static GameLogic gl;
     private TextView wins, losses;
-    private static MediaPlayer mpCorrect, mpWrong;
+    private MediaPlayer mpCorrect, mpWrong;
     
     private Keyboard keyboard;
     
@@ -60,12 +60,6 @@ public class Hangman extends Activity {
         //a zone of the onCreate which should not be called when the screen is flipped
         if(firstLoad){
         	
-        	//mediaplayers for onclicklistener
-        	mpCorrect = MediaPlayer.create(this, R.raw.correct_guess);
-        	mpWrong = MediaPlayer.create(this, R.raw.wrong_guess);
-        	mpCorrect.setVolume(0.3f, 0.3f);
-        	mpWrong.setVolume(0.3f, 0.3f);
-        	
 	        //creates our database with words from the selected language-option
 	        wdb = new WordDatabase(fetchWords());
 	        
@@ -79,6 +73,13 @@ public class Hangman extends Activity {
 	        FAULTS = 0;
 	        firstLoad = false;
         }
+        
+    	//mediaplayers for onclicklistener
+    	mpCorrect = MediaPlayer.create(this, R.raw.correct_guess);
+    	mpWrong = MediaPlayer.create(this, R.raw.wrong_guess);
+    	mpCorrect.setVolume(0.3f, 0.3f);
+    	mpWrong.setVolume(0.3f, 0.3f);
+    	
         // creating hangman-image
         hangedMan = (ImageView) findViewById(R.id.imageView);
         ViewHandler.hang(this, hangedMan, FAULTS);
