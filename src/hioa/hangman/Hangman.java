@@ -40,7 +40,7 @@ public class Hangman extends Activity {
     private static WordDatabase wdb;
     private static GameLogic gl;
     private TextView wins, losses;
-    private MediaPlayer mpCorrect, mpWrong;
+    private static MediaPlayer mpCorrect, mpWrong;
     
     private Keyboard keyboard;
     
