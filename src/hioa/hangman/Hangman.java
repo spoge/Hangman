@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class Hangman extends Activity {
     private static WordDatabase wdb;
     private static GameLogic gl;
     private TextView wins, losses;
+    private MediaPlayer mpCorrect, mpWrong;
     
     private Keyboard keyboard;
     
@@ -58,7 +60,12 @@ public class Hangman extends Activity {
         //a zone of the onCreate which should not be called when the screen is flipped
         if(firstLoad){
         	
-        	Log.d("Hangman.firstLoad", "we're in");
+        	//mediaplayers for onclicklistener
+        	mpCorrect = MediaPlayer.create(this, R.raw.correct_guess);
+        	mpWrong = MediaPlayer.create(this, R.raw.wrong_guess);
+        	mpCorrect.setVolume(0.3f, 0.3f);
+        	mpWrong.setVolume(0.3f, 0.3f);
+        	
 	        //creates our database with words from the selected language-option
 	        wdb = new WordDatabase(fetchWords());
 	        
@@ -219,11 +226,13 @@ public class Hangman extends Activity {
             FAULTS++;
             button.setTextColor(getResources().getColor(R.color.wrong));
             keyboard.update(inputLetter, LOST);
+            mpWrong.start();
         }
         else {
         	LEFT = ArrayListAdapter.getLettersLeft(letters);
         	button.setTextColor(getResources().getColor(R.color.correct));
         	keyboard.update(inputLetter, WON);
+        	mpCorrect.start();
         }
 
         //after this we remove and reload all guessed letter-views
@@ -307,6 +316,9 @@ public class Hangman extends Activity {
         
         for(int i = 0; i < keyboardString.length(); i++){
             Button letterButton = ViewHandler.generateButton(this, Character.toString(keyboardString.charAt(i)));
+            
+            //disable sound, to make room for our own effects on button
+            letterButton.setSoundEffectsEnabled(false);
             letterButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     executeButtonClick(v);
